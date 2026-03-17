@@ -14,13 +14,13 @@
             <div class="flex items-center gap-3">
                 <div class="bg-white p-1 rounded-full"><img src="logo.png" class="h-10 w-10 object-contain"></div>
                 <div>
-                    <h1 class="font-black leading-none uppercase">SIPANTAU CIPTA KARYA</h1>
-                    <p class="text-[10px] text-yellow-400 font-bold tracking-widest uppercase">DPRKPCK PROV JATIM</p>
+                    <h1 class="font-black leading-none uppercase text-sm md:text-base">SIPANTAU CIPTA KARYA</h1>
+                    <p class="text-[9px] text-yellow-400 font-bold tracking-widest uppercase">DPRKPCK PROV JATIM</p>
                 </div>
             </div>
             <select id="mainNav" onchange="switchMenu(this.value)" class="bg-blue-800 text-white text-xs font-bold p-2 rounded-lg outline-none border-none">
-                <option value="sni">📂 PANTAU SNI</option>
-                <option value="lapangan">🏗️ PANTAU LAPANGAN</option>
+                <option value="sni">📂 MENU PANTAU SNI</option>
+                <option value="lapangan">🏗️ MENU PANTAU LAPANGAN</option>
             </select>
         </div>
     </nav>
@@ -29,66 +29,59 @@
         
         <div id="section-sni" class="space-y-8">
             
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div class="bg-white p-5 rounded-3xl border shadow-sm">
-                    <h3 class="font-black text-blue-900 mb-3 text-sm uppercase italic border-b pb-2">🏗️ Struktur Beton & Baja</h3>
-                    <ul class="text-[11px] space-y-2">
-                        <li><a href="SNI 2847-2019 Persyaratan Beton Struktural Untuk Bangunan Gedung.pdf" target="_blank" class="text-blue-600 hover:underline">1. SNI 2847:2019 (Beton Struktural)</a></li>
-                        <li><a href="1729 - SNI 1729-2020 Spesifikasi untuk bangunan gedung baja struktural.pdf" target="_blank" class="text-blue-600 hover:underline">2. SNI 1729:2020 (Baja Struktural)</a></li>
-                        <li><a href="SNI_2052-2002-2017.pdf" target="_blank" class="text-blue-600 hover:underline">3. SNI 2052:2017 (Baja Tulangan Beton)</a></li>
-                        <li><a href="1727 - SNI 1727-2020 Beban desain minimum dan kriteria terkait untuk bangunan gedung dan struktur lain.pdf" target="_blank" class="text-blue-600 hover:underline">4. SNI 1727:2020 (Beban Desain)</a></li>
-                        <li><a href="SNI 1726-2012.pdf" target="_blank" class="text-blue-600 hover:underline">5. SNI 1726:2012 (Ketahanan Gempa)</a></li>
+                    <h3 class="font-black text-blue-900 mb-3 text-[11px] uppercase italic border-b pb-2">🏗️ Struktur Beton & Baja</h3>
+                    <ul class="text-[10px] space-y-2">
+                        <li><a href="SNI 2847-2019 Persyaratan Beton Struktural Untuk Bangunan Gedung.pdf" target="_blank" class="text-blue-600 hover:underline font-bold">1. SNI 2847:2019 (Beton)</a></li>
+                        <li><a href="1729 - SNI 1729-2020 Spesifikasi untuk bangunan gedung baja struktural.pdf" target="_blank" class="text-blue-600 hover:underline font-bold">2. SNI 1729:2020 (Baja)</a></li>
+                        <li><a href="SNI_2052-2002-2017.pdf" target="_blank" class="text-blue-600 hover:underline font-bold">3. SNI 2052:2017 (Baja Tulangan)</a></li>
+                        <li><a href="1727 - SNI 1727-2020 Beban desain minimum dan kriteria terkait untuk bangunan gedung dan struktur lain.pdf" target="_blank" class="text-blue-600 hover:underline font-bold">4. SNI 1727:2020 (Beban)</a></li>
+                        <li><a href="SNI 1726-2012.pdf" target="_blank" class="text-blue-600 hover:underline font-bold">5. SNI 1726:2012 (Gempa)</a></li>
                     </ul>
                 </div>
-
                 <div class="bg-white p-5 rounded-3xl border shadow-sm">
-                    <h3 class="font-black text-green-800 mb-3 text-sm uppercase italic border-b pb-2">🌱 Geoteknik & Tanah</h3>
-                    <ul class="text-[11px] space-y-2">
-                        <li><a href="SNI 8460-2017 Persyaratan Perancangan Geoteknik.pdf" target="_blank" class="text-blue-600 hover:underline">6. SNI 8460:2017 (Perancangan Geoteknik)</a></li>
-                        <li><a href="SNI 4153-2019 - Metode Uji Penetrasi Standar (SPT) dan Pengambilan Contoh Tanah Dengan Tabung Belah (ASTM D 1586-11, IDT).pdf" target="_blank" class="text-blue-600 hover:underline">7. SNI 4153:2019 (Uji SPT)</a></li>
-                        <li><a href="SNI 8064-2016.pdf" target="_blank" class="text-blue-600 hover:underline">8. SNI 8064:2016 (Stabilitas Lereng)</a></li>
+                    <h3 class="font-black text-green-800 mb-3 text-[11px] uppercase italic border-b pb-2">🌱 Geoteknik & Tanah</h3>
+                    <ul class="text-[10px] space-y-2">
+                        <li><a href="SNI 8460-2017 Persyaratan Perancangan Geoteknik.pdf" target="_blank" class="text-blue-600 hover:underline font-bold">6. SNI 8460:2017 (Geoteknik)</a></li>
+                        <li><a href="SNI 4153-2019 - Metode Uji Penetrasi Standar (SPT) dan Pengambilan Contoh Tanah Dengan Tabung Belah (ASTM D 1586-11, IDT).pdf" target="_blank" class="text-blue-600 hover:underline font-bold">7. SNI 4153:2019 (Uji SPT)</a></li>
+                        <li><a href="SNI 8064-2016.pdf" target="_blank" class="text-blue-600 hover:underline font-bold">8. SNI 8064:2016 (Lereng)</a></li>
                     </ul>
                 </div>
-
                 <div class="bg-white p-5 rounded-3xl border shadow-sm">
-                    <h3 class="font-black text-orange-700 mb-3 text-sm uppercase italic border-b pb-2">🔌 Listrik & Plambing</h3>
-                    <ul class="text-[11px] space-y-2">
-                        <li><a href="0225 - SNI 0225-2020 Persyaratan Umum Instalasi Listrik (PUIL 2020).pdf" target="_blank" class="text-blue-600 hover:underline">9. SNI 0225:2020 (PUIL 2020)</a></li>
-                        <li><a href="SNI 8153-2015 Sistem Plambing Pada Bangunan Gedung.pdf" target="_blank" class="text-blue-600 hover:underline">10. SNI 8153:2015 (Sistem Plambing)</a></li>
+                    <h3 class="font-black text-orange-700 mb-3 text-[11px] uppercase italic border-b pb-2">🔌 Listrik & Plambing</h3>
+                    <ul class="text-[10px] space-y-2">
+                        <li><a href="0225 - SNI 0225-2020 Persyaratan Umum Instalasi Listrik (PUIL 2020).pdf" target="_blank" class="text-blue-600 hover:underline font-bold">9. SNI 0225:2020 (PUIL)</a></li>
+                        <li><a href="SNI 8153-2015 Sistem Plambing Pada Bangunan Gedung.pdf" target="_blank" class="text-blue-600 hover:underline font-bold">10. SNI 8153:2015 (Plambing)</a></li>
                     </ul>
                 </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="bg-white p-6 rounded-3xl shadow-sm border">
-                    <h2 class="font-black text-blue-900 uppercase mb-4 italic">🔍 Koreksi Standar SNI</h2>
+                    <h2 class="font-black text-blue-900 uppercase mb-4 italic text-sm">🔍 Fitur 2: Koreksi Laporan</h2>
                     <div class="border-2 border-dashed border-blue-200 p-6 rounded-2xl text-center">
                         <input type="file" id="inputExcelKoreksi" class="hidden" accept=".xlsx, .xls">
-                        <label for="inputExcelKoreksi" class="bg-blue-600 text-white px-6 py-3 rounded-xl font-bold cursor-pointer hover:bg-blue-700 transition inline-block mb-4 text-xs">Pilih File Laporan (Excel)</label>
-                        <div id="statusKoreksi" class="text-xs font-bold text-gray-400 italic">Validasi otomatis akan memindai seluruh isi tabel...</div>
+                        <label for="inputExcelKoreksi" class="bg-blue-600 text-white px-6 py-3 rounded-xl font-bold cursor-pointer hover:bg-blue-700 transition inline-block mb-4 text-xs">Pilih File Laporan</label>
+                        <div id="statusKoreksi" class="text-[11px] font-bold text-gray-400 italic">Validasi otomatis data uji...</div>
                     </div>
                 </div>
 
-                <div class="bg-white p-6 rounded-3xl shadow-sm border text-center">
-                    <h2 class="font-black text-blue-900 uppercase mb-4 italic text-left">📤 Arsip Laporan & File</h2>
+                <div class="bg-white p-6 rounded-3xl shadow-sm border">
+                    <h2 class="font-black text-blue-900 uppercase mb-4 italic text-sm">📤 Fitur 3: Simpan Ke Database</h2>
                     <input type="text" id="namaProyekSNI" placeholder="Nama Gedung / Lokasi" class="w-full p-3 border rounded-xl mb-3 font-bold bg-gray-50 text-xs">
                     <input type="file" id="fileSNI" class="w-full text-[10px] p-2 border rounded-xl mb-3 bg-gray-50">
-                    <button id="btnSimpanSNI" class="w-full bg-blue-900 text-white py-4 rounded-xl font-black shadow-lg uppercase tracking-widest hover:bg-black transition text-xs">Upload & Simpan Ke Firebase</button>
-                    <p id="loadingStatus" class="text-[10px] font-bold text-blue-600 mt-2 hidden animate-pulse">MEMPROSES DATA & UPLOAD FILE...</p>
+                    <button id="btnSimpanSNI" class="w-full bg-blue-900 text-white py-4 rounded-xl font-black shadow-lg uppercase tracking-widest hover:bg-black transition text-xs">Upload & Sinkronkan</button>
+                    <p id="loadingStatus" class="text-[9px] font-bold text-blue-600 mt-2 hidden animate-pulse">SEDANG MENGIRIM FILE KE STORAGE...</p>
                 </div>
             </div>
 
             <div class="bg-white p-6 rounded-3xl shadow-sm border">
-                <h3 class="font-black text-blue-900 mb-4 uppercase italic">Monitor Laporan Masuk (Realtime)</h3>
+                <h3 class="font-black text-blue-900 mb-4 uppercase italic text-xs">Monitor Laporan SNI (Realtime)</h3>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-[10px]">
                         <thead class="bg-blue-50">
-                            <tr>
-                                <th class="p-4">WAKTU</th>
-                                <th class="p-4">NAMA PROYEK</th>
-                                <th class="p-4">DOKUMEN</th>
-                                <th class="p-4">AKSI</th>
-                            </tr>
+                            <tr><th class="p-4">WAKTU</th><th class="p-4">NAMA PROYEK</th><th class="p-4">DOKUMEN</th><th class="p-4">AKSI</th></tr>
                         </thead>
                         <tbody id="listSNI"></tbody>
                     </table>
@@ -98,11 +91,11 @@
 
         <div id="section-lapangan" class="hidden space-y-6">
             <div class="max-w-xl mx-auto bg-white p-8 rounded-3xl shadow-sm border">
-                <h2 class="font-black text-green-700 uppercase mb-6 text-center italic text-2xl">Update Progres Fisik</h2>
+                <h2 class="font-black text-green-700 uppercase mb-6 text-center italic text-xl">Input Progres Fisik</h2>
                 <div class="space-y-4">
-                    <input type="text" id="namaProyekLap" placeholder="Nama Paket Pekerjaan" class="w-full p-4 border rounded-2xl font-bold bg-gray-50">
-                    <input type="number" id="persenLap" placeholder="Capaian Progres (%)" class="w-full p-4 border rounded-2xl font-bold bg-gray-50">
-                    <button onclick="saveLapangan()" class="w-full bg-green-700 text-white py-4 rounded-2xl font-black shadow-xl uppercase tracking-widest hover:bg-green-900 transition">Kirim Update Lapangan</button>
+                    <input type="text" id="namaProyekLap" placeholder="Nama Paket Pekerjaan" class="w-full p-4 border rounded-2xl font-bold bg-gray-50 text-sm">
+                    <input type="number" id="persenLap" placeholder="Capaian Progres (%)" class="w-full p-4 border rounded-2xl font-bold bg-gray-50 text-sm">
+                    <button onclick="saveLapangan()" class="w-full bg-green-700 text-white py-4 rounded-2xl font-black shadow-xl uppercase tracking-widest hover:bg-green-900 transition text-sm">Kirim Progres</button>
                 </div>
             </div>
 
@@ -135,23 +128,20 @@
         const db = getDatabase(app);
         const storage = getStorage(app);
 
-        // FITUR UPLOAD FILE SNI + DATABASE
+        // FUNGSI SNI
         document.getElementById('btnSimpanSNI').onclick = async () => {
             const file = document.getElementById('fileSNI').files[0];
             const nama = document.getElementById('namaProyekSNI').value;
             const loading = document.getElementById('loadingStatus');
 
             if(!nama || !file) return alert("Lengkapi Nama Proyek dan Pilih File!");
-
             loading.classList.remove('hidden');
 
             try {
-                // 1. Upload File ke Storage
                 const storagePath = stRef(storage, 'arsip_laporan/' + file.name);
                 await uploadBytes(storagePath, file);
                 const fileUrl = await getDownloadURL(storagePath);
 
-                // 2. Simpan Data ke Realtime Database
                 const newRef = push(dbRef(db, 'data_sni'));
                 await set(newRef, {
                     proyek: nama,
@@ -160,18 +150,28 @@
                     waktu: new Date().toLocaleTimeString(),
                     tanggal: new Date().toLocaleDateString()
                 });
-
-                alert("✅ Berhasil Upload!");
+                alert("✅ Arsip SNI Tersimpan!");
                 document.getElementById('namaProyekSNI').value = "";
                 document.getElementById('fileSNI').value = "";
-            } catch (e) {
-                alert("Gagal: " + e.message);
-            } finally {
-                loading.classList.add('hidden');
-            }
+            } catch (e) { alert("Gagal: " + e.message); } finally { loading.classList.add('hidden'); }
         };
 
-        // SAVE LAPANGAN
+        onValue(dbRef(db, 'data_sni'), (snap) => {
+            const list = document.getElementById('listSNI');
+            list.innerHTML = "";
+            snap.forEach(child => {
+                const d = child.val();
+                list.innerHTML += `
+                <tr class="border-b">
+                    <td class="p-4 text-gray-400 font-mono">${d.tanggal}</td>
+                    <td class="p-4 font-black text-blue-900">${d.proyek}</td>
+                    <td class="p-4 text-gray-500">${d.fileName}</td>
+                    <td class="p-4"><a href="${d.fileUrl}" target="_blank" class="bg-blue-600 text-white px-3 py-2 rounded-lg font-bold uppercase hover:bg-black transition">Buka File</a></td>
+                </tr>`;
+            });
+        });
+
+        // FUNGSI LAPANGAN
         window.saveLapangan = function() {
             const nama = document.getElementById('namaProyekLap').value;
             const persen = document.getElementById('persenLap').value;
@@ -184,39 +184,20 @@
                 waktu: new Date().toLocaleTimeString(),
                 tanggal: new Date().toLocaleDateString()
             }).then(() => {
-                alert("✅ Progres Terupdate!");
+                alert("✅ Progres Lapangan Terupdate!");
                 document.getElementById('namaProyekLap').value = "";
                 document.getElementById('persenLap').value = "";
             });
         };
 
-        // MONITOR SNI
-        onValue(dbRef(db, 'data_sni'), (snap) => {
-            const list = document.getElementById('listSNI');
-            list.innerHTML = "";
-            snap.forEach(child => {
-                const d = child.val();
-                list.innerHTML += `
-                <tr class="border-b hover:bg-gray-50">
-                    <td class="p-4 text-gray-400 font-mono">${d.tanggal} ${d.waktu}</td>
-                    <td class="p-4 font-black text-blue-900">${d.proyek}</td>
-                    <td class="p-4 text-gray-500">${d.fileName}</td>
-                    <td class="p-4">
-                        <a href="${d.fileUrl}" target="_blank" class="bg-blue-600 text-white px-3 py-2 rounded-lg font-bold uppercase hover:bg-black transition">Buka File</a>
-                    </td>
-                </tr>`;
-            });
-        });
-
-        // MONITOR LAPANGAN
         onValue(dbRef(db, 'data_progres'), (snap) => {
             const list = document.getElementById('listLapangan');
             list.innerHTML = "";
             snap.forEach(child => {
                 const d = child.val();
                 list.innerHTML += `
-                <div class="p-4 border rounded-2xl bg-gray-50 flex justify-between items-center">
-                    <div><p class="text-[10px] text-gray-400 font-bold">${d.tanggal}</p><p class="font-black text-blue-900 text-xs">${d.proyek}</p></div>
+                <div class="p-4 border rounded-2xl bg-gray-50 flex justify-between items-center shadow-sm">
+                    <div><p class="text-[9px] text-gray-400 font-bold">${d.tanggal}</p><p class="font-black text-blue-900 text-xs">${d.proyek}</p></div>
                     <div class="text-right"><p class="text-xl font-black text-green-600">${d.nilai}</p></div>
                 </div>`;
             });
@@ -224,34 +205,27 @@
     </script>
 
     <script>
+        // NAVIGASI MENU UTAMA
         function switchMenu(val) {
             document.getElementById('section-sni').classList.toggle('hidden', val !== 'sni');
             document.getElementById('section-lapangan').classList.toggle('hidden', val !== 'lapangan');
         }
 
+        // KOREKSI EXCEL REALTIME
         document.getElementById('inputExcelKoreksi').addEventListener('change', function(e) {
             const reader = new FileReader();
             const status = document.getElementById('statusKoreksi');
-            status.innerText = "Memindai Seluruh Tabel...";
+            status.innerText = "Memindai...";
 
             reader.onload = (event) => {
                 const data = new Uint8Array(event.target.result);
                 const workbook = XLSX.read(data, {type: 'array'});
                 const sheet = workbook.Sheets[workbook.SheetNames[0]];
                 const rows = XLSX.utils.sheet_to_json(sheet, {header: 1});
-                
-                let foundValue = null;
-                rows.forEach(row => {
-                    row.forEach(cell => {
-                        if(!isNaN(cell) && cell !== "" && cell > 0) { foundValue = cell; }
-                    });
-                });
-
-                if(foundValue) {
-                    status.innerHTML = `<span class="text-green-600 font-black">✅ DATA TERDETEKSI (${foundValue})</span><br><span class="text-[9px]">Sesuai standar teknis Cipta Karya.</span>`;
-                } else {
-                    status.innerHTML = `<span class="text-red-600 font-black">❌ DATA TIDAK VALID</span><br><span class="text-[9px]">Gunakan format tabel hasil uji laboratorium.</span>`;
-                }
+                let found = null;
+                rows.forEach(row => { row.forEach(cell => { if(!isNaN(cell) && cell !== "" && cell > 0) found = cell; }); });
+                if(found) status.innerHTML = `<span class="text-green-600 font-black">✅ DATA VALID (${found})</span>`;
+                else status.innerHTML = `<span class="text-red-600 font-black">❌ DATA TIDAK TERBACA</span>`;
             };
             reader.readAsArrayBuffer(e.target.files[0]);
         });
