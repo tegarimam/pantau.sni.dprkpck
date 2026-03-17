@@ -1,234 +1,155 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIPANTAU CIPTA KARYA - TEGAR IMAM</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-</head>
-<body class="bg-slate-50 font-sans text-gray-900">
+import React, { useState } from 'react';
+import * as XLSX from 'xlsx';
+import { initializeApp } from "firebase/app";
+import { getFirestore, collection, addDoc, serverTimestamp } from "firebase/firestore";
 
-    <nav class="bg-blue-900 text-white p-4 shadow-lg sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <div class="bg-white p-1 rounded-full"><img src="logo.png" class="h-10 w-10 object-contain"></div>
-                <div>
-                    <h1 class="font-black leading-none uppercase text-sm md:text-base">SIPANTAU CIPTA KARYA</h1>
-                    <p class="text-[9px] text-yellow-400 font-bold tracking-widest uppercase">DPRKPCK PROV JATIM</p>
-                </div>
-            </div>
-            <select id="mainNav" onchange="switchMenu(this.value)" class="bg-blue-800 text-white text-xs font-bold p-2 rounded-lg outline-none border-none">
-                <option value="sni">📂 MENU PANTAU SNI</option>
-                <option value="lapangan">🏗️ MENU PANTAU LAPANGAN</option>
-            </select>
-        </div>
-    </nav>
+// ==========================================
+// 1. KONFIGURASI FIREBASE (Ganti dengan milik Anda)
+// ==========================================
+const firebaseConfig = {
+  apiKey: "AIzaSy...", 
+  authDomain: "project-anda.firebaseapp.com",
+  projectId: "project-anda",
+  storageBucket: "project-anda.appspot.com",
+  messagingSenderId: "123456789",
+  appId: "1:123456789:web:abcdef"
+};
 
-    <main class="max-w-7xl mx-auto p-4 md:p-8">
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const MonitorSNI = () => {
+  const [dataHasilCek, setDataHasilCek] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  // ==========================================
+  // 2. FITUR: BACA EXCEL & CEK SNI (GABUNGAN)
+  // ==========================================
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+      const bstr = evt.target.result;
+      const wb = XLSX.read(bstr, { type: 'binary' });
+      const wsname = wb.SheetNames[0];
+      const ws = wb.Sheets[wsname];
+      const rawData = XLSX.utils.sheet_to_json(ws);
+
+      // --- LOGIKA CEK SNI OTOMATIS ---
+      const prosesValidasi = rawData.map((item) => {
+        // Cek apakah kolom SNI ada isinya
+        const adaKodeSNI = item.kode_sni && item.kode_sni.toString().trim() !== "";
         
-        <div id="section-sni" class="space-y-8">
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="bg-white p-5 rounded-3xl border shadow-sm">
-                    <h3 class="font-black text-blue-900 mb-3 text-[11px] uppercase italic border-b pb-2">🏗️ Struktur Beton & Baja</h3>
-                    <ul class="text-[10px] space-y-2">
-                        <li><a href="SNI 2847-2019 Persyaratan Beton Struktural Untuk Bangunan Gedung.pdf" target="_blank" class="text-blue-600 hover:underline font-bold">1. SNI 2847:2019 (Beton)</a></li>
-                        <li><a href="1729 - SNI 1729-2020 Spesifikasi untuk bangunan gedung baja struktural.pdf" target="_blank" class="text-blue-600 hover:underline font-bold">2. SNI 1729:2020 (Baja)</a></li>
-                        <li><a href="SNI_2052-2002-2017.pdf" target="_blank" class="text-blue-600 hover:underline font-bold">3. SNI 2052:2017 (Baja Tulangan)</a></li>
-                        <li><a href="1727 - SNI 1727-2020 Beban desain minimum dan kriteria terkait untuk bangunan gedung dan struktur lain.pdf" target="_blank" class="text-blue-600 hover:underline font-bold">4. SNI 1727:2020 (Beban)</a></li>
-                        <li><a href="SNI 1726-2012.pdf" target="_blank" class="text-blue-600 hover:underline font-bold">5. SNI 1726:2012 (Gempa)</a></li>
-                    </ul>
-                </div>
-                <div class="bg-white p-5 rounded-3xl border shadow-sm">
-                    <h3 class="font-black text-green-800 mb-3 text-[11px] uppercase italic border-b pb-2">🌱 Geoteknik & Tanah</h3>
-                    <ul class="text-[10px] space-y-2">
-                        <li><a href="SNI 8460-2017 Persyaratan Perancangan Geoteknik.pdf" target="_blank" class="text-blue-600 hover:underline font-bold">6. SNI 8460:2017 (Geoteknik)</a></li>
-                        <li><a href="SNI 4153-2019 - Metode Uji Penetrasi Standar (SPT) dan Pengambilan Contoh Tanah Dengan Tabung Belah (ASTM D 1586-11, IDT).pdf" target="_blank" class="text-blue-600 hover:underline font-bold">7. SNI 4153:2019 (Uji SPT)</a></li>
-                        <li><a href="SNI 8064-2016.pdf" target="_blank" class="text-blue-600 hover:underline font-bold">8. SNI 8064:2016 (Lereng)</a></li>
-                    </ul>
-                </div>
-                <div class="bg-white p-5 rounded-3xl border shadow-sm">
-                    <h3 class="font-black text-orange-700 mb-3 text-[11px] uppercase italic border-b pb-2">🔌 Listrik & Plambing</h3>
-                    <ul class="text-[10px] space-y-2">
-                        <li><a href="0225 - SNI 0225-2020 Persyaratan Umum Instalasi Listrik (PUIL 2020).pdf" target="_blank" class="text-blue-600 hover:underline font-bold">9. SNI 0225:2020 (PUIL)</a></li>
-                        <li><a href="SNI 8153-2015 Sistem Plambing Pada Bangunan Gedung.pdf" target="_blank" class="text-blue-600 hover:underline font-bold">10. SNI 8153:2015 (Plambing)</a></li>
-                    </ul>
-                </div>
-            </div>
+        return {
+          ...item,
+          // Status otomatis berdasarkan isi excel
+          status_sni: adaKodeSNI ? "TERVALIDASI" : "TIDAK ADA SNI",
+          tanggal_cek: new Date().toLocaleDateString('id-ID'),
+        };
+      });
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-white p-6 rounded-3xl shadow-sm border">
-                    <h2 class="font-black text-blue-900 uppercase mb-4 italic text-sm">🔍 Fitur 2: Koreksi Laporan</h2>
-                    <div class="border-2 border-dashed border-blue-200 p-6 rounded-2xl text-center">
-                        <input type="file" id="inputExcelKoreksi" class="hidden" accept=".xlsx, .xls">
-                        <label for="inputExcelKoreksi" class="bg-blue-600 text-white px-6 py-3 rounded-xl font-bold cursor-pointer hover:bg-blue-700 transition inline-block mb-4 text-xs">Pilih File Laporan</label>
-                        <div id="statusKoreksi" class="text-[11px] font-bold text-gray-400 italic">Validasi otomatis data uji...</div>
-                    </div>
-                </div>
+      setDataHasilCek(prosesValidasi);
+      console.log("Data Berhasil Dicek:", prosesValidasi);
+    };
+    reader.readAsBinaryString(file);
+  };
 
-                <div class="bg-white p-6 rounded-3xl shadow-sm border">
-                    <h2 class="font-black text-blue-900 uppercase mb-4 italic text-sm">📤 Fitur 3: Simpan Ke Database</h2>
-                    <input type="text" id="namaProyekSNI" placeholder="Nama Gedung / Lokasi" class="w-full p-3 border rounded-xl mb-3 font-bold bg-gray-50 text-xs">
-                    <input type="file" id="fileSNI" class="w-full text-[10px] p-2 border rounded-xl mb-3 bg-gray-50">
-                    <button id="btnSimpanSNI" class="w-full bg-blue-900 text-white py-4 rounded-xl font-black shadow-lg uppercase tracking-widest hover:bg-black transition text-xs">Upload & Sinkronkan</button>
-                    <p id="loadingStatus" class="text-[9px] font-bold text-blue-600 mt-2 hidden animate-pulse">SEDANG MENGIRIM FILE KE STORAGE...</p>
-                </div>
-            </div>
+  // ==========================================
+  // 3. FITUR: KIRIM KE FIREBASE
+  // ==========================================
+  const kirimKeFirebase = async () => {
+    if (dataHasilCek.length === 0) {
+      alert("Belum ada data! Silakan upload Excel dulu.");
+      return;
+    }
 
-            <div class="bg-white p-6 rounded-3xl shadow-sm border">
-                <h3 class="font-black text-blue-900 mb-4 uppercase italic text-xs">Monitor Laporan SNI (Realtime)</h3>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-[10px]">
-                        <thead class="bg-blue-50">
-                            <tr><th class="p-4">WAKTU</th><th class="p-4">NAMA PROYEK</th><th class="p-4">DOKUMEN</th><th class="p-4">AKSI</th></tr>
-                        </thead>
-                        <tbody id="listSNI"></tbody>
-                    </table>
-                </div>
-            </div>
+    setLoading(true);
+    try {
+      const colRef = collection(db, "pantau_sni_dprkpck");
+
+      // Mengirim semua baris data satu per satu
+      for (const data of dataHasilCek) {
+        await addDoc(colRef, {
+          ...data,
+          createdAt: serverTimestamp(), // Waktu server Firebase
+        });
+      }
+
+      alert("Sukses! Semua data SNI berhasil masuk ke Firebase.");
+      setDataHasilCek([]); // Bersihkan tabel setelah upload
+    } catch (error) {
+      console.error("Firebase Error:", error);
+      alert("Gagal mengirim data. Cek koneksi atau config Firebase Anda.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div style={{ padding: '20px', fontFamily: 'Arial' }}>
+      <h1>Panel Monitoring SNI</h1>
+      <p>Upload Excel -&gt; Cek SNI Otomatis -&gt; Simpan Firebase</p>
+      
+      <div style={{ background: '#f4f4f4', padding: '15px', borderRadius: '8px' }}>
+        {/* INPUT EXCEL */}
+        <input 
+          type="file" 
+          accept=".xlsx, .xls" 
+          onChange={handleFileUpload} 
+          style={{ marginBottom: '10px' }}
+        />
+        
+        <br />
+
+        {/* TOMBOL KIRIM */}
+        <button 
+          onClick={kirimKeFirebase}
+          disabled={loading || dataHasilCek.length === 0}
+          style={{
+            padding: '10px 20px',
+            backgroundColor: loading ? '#ccc' : '#007bff',
+            color: 'white',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer'
+          }}
+        >
+          {loading ? "Sedang Mengunggah..." : "Kirim Semua Data ke Firebase"}
+        </button>
+      </div>
+
+      {/* TABEL PREVIEW */}
+      {dataHasilCek.length > 0 && (
+        <div style={{ marginTop: '20px' }}>
+          <h3>Preview Data Sebelum Upload:</h3>
+          <table border="1" cellPadding="10" style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <thead style={{ backgroundColor: '#eee' }}>
+              <tr>
+                <th>No</th>
+                <th>Nama Material</th>
+                <th>Kode SNI</th>
+                <th>Status Validasi</th>
+              </tr>
+            </thead>
+            <tbody>
+              {dataHasilCek.map((item, index) => (
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td>{item.nama_material || "N/A"}</td>
+                  <td>{item.kode_sni || "-"}</td>
+                  <td style={{ fontWeight: 'bold', color: item.status_sni === "TERVALIDASI" ? "green" : "red" }}>
+                    {item.status_sni}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
+      )}
+    </div>
+  );
+};
 
-        <div id="section-lapangan" class="hidden space-y-6">
-            <div class="max-w-xl mx-auto bg-white p-8 rounded-3xl shadow-sm border">
-                <h2 class="font-black text-green-700 uppercase mb-6 text-center italic text-xl">Input Progres Fisik</h2>
-                <div class="space-y-4">
-                    <input type="text" id="namaProyekLap" placeholder="Nama Paket Pekerjaan" class="w-full p-4 border rounded-2xl font-bold bg-gray-50 text-sm">
-                    <input type="number" id="persenLap" placeholder="Capaian Progres (%)" class="w-full p-4 border rounded-2xl font-bold bg-gray-50 text-sm">
-                    <button onclick="saveLapangan()" class="w-full bg-green-700 text-white py-4 rounded-2xl font-black shadow-xl uppercase tracking-widest hover:bg-green-900 transition text-sm">Kirim Progres</button>
-                </div>
-            </div>
-
-            <div class="bg-white p-6 rounded-3xl shadow-sm border">
-                <h3 class="font-black text-green-700 mb-4 uppercase italic text-center text-sm">Monitor Progres Proyek Jawa Timur</h3>
-                <div id="listLapangan" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-            </div>
-        </div>
-    </main>
-
-    <footer class="p-8 text-center border-t mt-12">
-        <p class="text-[10px] font-bold text-gray-400 tracking-[0.5em] uppercase">Sipantau Cipta Karya</p>
-        <p class="text-sm font-black text-blue-900 uppercase italic mt-1 underline decoration-yellow-400">Tegar Imam Prasojo - Teknik Sipil UNESA</p>
-    </footer>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref as dbRef, push, onValue, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-        import { getStorage, ref as stRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyAKzTql5a5Qse3g_dN024Vb3Kis22oiOSE",
-            authDomain: "sipantau-ciptakarya.firebaseapp.com",
-            projectId: "sipantau-ciptakarya",
-            storageBucket: "sipantau-ciptakarya.firebasestorage.app",
-            databaseURL: "https://sipantau-ciptakarya-default-rtdb.asia-southeast1.firebasedatabase.app"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
-        const storage = getStorage(app);
-
-        // FUNGSI SNI
-        document.getElementById('btnSimpanSNI').onclick = async () => {
-            const file = document.getElementById('fileSNI').files[0];
-            const nama = document.getElementById('namaProyekSNI').value;
-            const loading = document.getElementById('loadingStatus');
-
-            if(!nama || !file) return alert("Lengkapi Nama Proyek dan Pilih File!");
-            loading.classList.remove('hidden');
-
-            try {
-                const storagePath = stRef(storage, 'arsip_laporan/' + file.name);
-                await uploadBytes(storagePath, file);
-                const fileUrl = await getDownloadURL(storagePath);
-
-                const newRef = push(dbRef(db, 'data_sni'));
-                await set(newRef, {
-                    proyek: nama,
-                    fileName: file.name,
-                    fileUrl: fileUrl,
-                    waktu: new Date().toLocaleTimeString(),
-                    tanggal: new Date().toLocaleDateString()
-                });
-                alert("✅ Arsip SNI Tersimpan!");
-                document.getElementById('namaProyekSNI').value = "";
-                document.getElementById('fileSNI').value = "";
-            } catch (e) { alert("Gagal: " + e.message); } finally { loading.classList.add('hidden'); }
-        };
-
-        onValue(dbRef(db, 'data_sni'), (snap) => {
-            const list = document.getElementById('listSNI');
-            list.innerHTML = "";
-            snap.forEach(child => {
-                const d = child.val();
-                list.innerHTML += `
-                <tr class="border-b">
-                    <td class="p-4 text-gray-400 font-mono">${d.tanggal}</td>
-                    <td class="p-4 font-black text-blue-900">${d.proyek}</td>
-                    <td class="p-4 text-gray-500">${d.fileName}</td>
-                    <td class="p-4"><a href="${d.fileUrl}" target="_blank" class="bg-blue-600 text-white px-3 py-2 rounded-lg font-bold uppercase hover:bg-black transition">Buka File</a></td>
-                </tr>`;
-            });
-        });
-
-        // FUNGSI LAPANGAN
-        window.saveLapangan = function() {
-            const nama = document.getElementById('namaProyekLap').value;
-            const persen = document.getElementById('persenLap').value;
-            if(!nama || !persen) return alert("Lengkapi data!");
-
-            const newRef = push(dbRef(db, 'data_progres'));
-            set(newRef, {
-                proyek: nama,
-                nilai: persen + "%",
-                waktu: new Date().toLocaleTimeString(),
-                tanggal: new Date().toLocaleDateString()
-            }).then(() => {
-                alert("✅ Progres Lapangan Terupdate!");
-                document.getElementById('namaProyekLap').value = "";
-                document.getElementById('persenLap').value = "";
-            });
-        };
-
-        onValue(dbRef(db, 'data_progres'), (snap) => {
-            const list = document.getElementById('listLapangan');
-            list.innerHTML = "";
-            snap.forEach(child => {
-                const d = child.val();
-                list.innerHTML += `
-                <div class="p-4 border rounded-2xl bg-gray-50 flex justify-between items-center shadow-sm">
-                    <div><p class="text-[9px] text-gray-400 font-bold">${d.tanggal}</p><p class="font-black text-blue-900 text-xs">${d.proyek}</p></div>
-                    <div class="text-right"><p class="text-xl font-black text-green-600">${d.nilai}</p></div>
-                </div>`;
-            });
-        });
-    </script>
-
-    <script>
-        // NAVIGASI MENU UTAMA
-        function switchMenu(val) {
-            document.getElementById('section-sni').classList.toggle('hidden', val !== 'sni');
-            document.getElementById('section-lapangan').classList.toggle('hidden', val !== 'lapangan');
-        }
-
-        // KOREKSI EXCEL REALTIME
-        document.getElementById('inputExcelKoreksi').addEventListener('change', function(e) {
-            const reader = new FileReader();
-            const status = document.getElementById('statusKoreksi');
-            status.innerText = "Memindai...";
-
-            reader.onload = (event) => {
-                const data = new Uint8Array(event.target.result);
-                const workbook = XLSX.read(data, {type: 'array'});
-                const sheet = workbook.Sheets[workbook.SheetNames[0]];
-                const rows = XLSX.utils.sheet_to_json(sheet, {header: 1});
-                let found = null;
-                rows.forEach(row => { row.forEach(cell => { if(!isNaN(cell) && cell !== "" && cell > 0) found = cell; }); });
-                if(found) status.innerHTML = `<span class="text-green-600 font-black">✅ DATA VALID (${found})</span>`;
-                else status.innerHTML = `<span class="text-red-600 font-black">❌ DATA TIDAK TERBACA</span>`;
-            };
-            reader.readAsArrayBuffer(e.target.files[0]);
-        });
-    </script>
-</body>
-</html>
+export default MonitorSNI;
