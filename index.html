@@ -9,164 +9,237 @@
     <style>
         .hidden-section { display: none; }
         .active-section { display: block; }
+        .tab-active { border-bottom: 4px solid #facc15; color: #facc15; font-weight: bold; }
+        /* Animasi smooth untuk dropdown */
+        #dropdown-menu { transition: opacity 0.2s ease, transform 0.2s ease; }
     </style>
 </head>
-<body class="bg-gray-100 font-sans pb-20">
+<body class="bg-gray-50 font-sans pb-24 text-gray-800">
 
-    <header class="bg-blue-900 text-white p-4 shadow-md sticky top-0 z-50">
+    <header class="bg-blue-900 text-white p-4 shadow-lg sticky top-0 z-50">
         <div class="container mx-auto flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <img src="logo.png" alt="Logo" class="h-12 w-12 object-contain">
+                <img src="logo.png" alt="Logo" class="h-12 w-12 object-contain bg-white p-1 rounded-full">
                 <div>
-                    <h1 class="text-xl font-bold leading-tight">SIPANTAU CIPTAKARYA</h1>
-                    <p class="text-xs text-blue-200">DPRKP-CK JAWA TIMUR</p>
+                    <h1 class="text-xl font-black leading-none tracking-tight">SIPANTAU CIPTAKARYA</h1>
+                    <p class="text-[10px] text-yellow-400 font-bold tracking-[0.2em] uppercase">DPRKPCK JAWA TIMUR</p>
                 </div>
             </div>
-            <div class="relative group">
-                <button class="p-2 focus:outline-none hover:bg-blue-800 rounded-full">
+            
+            <div class="relative">
+                <button id="btn-menu" class="p-2 hover:bg-blue-800 rounded-full transition-all">
                     <i class="fas fa-ellipsis-v text-xl"></i>
                 </button>
-                <div class="absolute right-0 mt-2 w-56 bg-white text-gray-800 rounded-lg shadow-xl border hidden group-hover:block overflow-hidden">
-                    <a href="#" onclick="showPage('pantau-sni')" class="block px-4 py-3 hover:bg-blue-50 border-b"><i class="fas fa-book-reader mr-2"></i> Pantau SNI</a>
-                    <a href="#" onclick="showPage('pantau-lapangan')" class="block px-4 py-3 hover:bg-blue-50 border-b"><i class="fas fa-hard-hat mr-2"></i> Pantau Lapangan</a>
-                    <a href="#" onclick="showPage('monitoring-realtime')" class="block px-4 py-3 hover:bg-blue-50"><i class="fas fa-desktop mr-2"></i> Monitoring Realtime</a>
+                <div id="dropdown-menu" class="hidden absolute right-0 mt-3 w-64 bg-white text-gray-800 rounded-2xl shadow-2xl border-2 border-gray-100 z-[60] overflow-hidden">
+                    <button onclick="switchMainPage('pantau-sni')" class="w-full text-left px-5 py-4 hover:bg-blue-50 border-b flex items-center gap-3">
+                        <i class="fas fa-book-reader text-blue-700"></i> <span>Pantau SNI</span>
+                    </button>
+                    <button onclick="switchMainPage('pantau-lapangan')" class="w-full text-left px-5 py-4 hover:bg-blue-50 border-b flex items-center gap-3">
+                        <i class="fas fa-hard-hat text-orange-600"></i> <span>Pantau Lapangan</span>
+                    </button>
+                    <button onclick="switchMainPage('monitoring-realtime')" class="w-full text-left px-5 py-4 hover:bg-yellow-50 flex items-center gap-3 font-bold text-blue-900">
+                        <i class="fas fa-desktop text-green-600"></i> <span>Monitoring Realtime</span>
+                    </button>
                 </div>
             </div>
         </div>
     </header>
 
     <main class="container mx-auto mt-6 px-4">
-        <h2 id="main-title" class="text-2xl font-extrabold text-blue-900 mb-6 text-center underline">MENU UTAMA</h2>
+        <div class="text-center mb-8">
+            <h2 id="display-title" class="text-2xl font-black text-blue-900 uppercase italic">PANTAU SNI</h2>
+            <div class="h-1 w-20 bg-yellow-400 mx-auto mt-1 rounded-full"></div>
+        </div>
 
-        <section id="pantau-sni" class="hidden-section">
-            <h3 class="text-xl font-bold mb-4 border-l-4 border-blue-600 pl-2">Pantau SNI</h3>
-            
-            <div class="bg-white p-4 rounded-xl shadow mb-4">
-                <h4 class="font-bold text-blue-700 mb-3"><i class="fas fa-archive"></i> Gudang SNI</h4>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
-                    <a href="0225 - SNI 0225-2020 Persyaratan Umum Instalasi Listrik (PUIL 2020).pdf" target="_blank" class="p-2 bg-gray-50 hover:bg-blue-100 rounded border">SNI 0225-2020 (PUIL)</a>
-                    <a href="1727 - SNI 1727-2020 Beban desain minimum dan kriteria terkait untuk bangunan gedung dan struktur lain.pdf" target="_blank" class="p-2 bg-gray-50 hover:bg-blue-100 rounded border">SNI 1727-2020 (Beban Desain)</a>
-                    <a href="1729 - SNI 1729-2020 Spesifikasi untuk bangunan gedung baja struktural.pdf" target="_blank" class="p-2 bg-gray-50 hover:bg-blue-100 rounded border">SNI 1729-2020 (Baja)</a>
-                    <a href="SNI 1726-2012.pdf" target="_blank" class="p-2 bg-gray-50 hover:bg-blue-100 rounded border">SNI 1726-2012 (Gempa)</a>
-                    <a href="SNI 2847-2019 Persyaratan Beton Struktural Untuk Bangunan Gedung.pdf" target="_blank" class="p-2 bg-gray-50 hover:bg-blue-100 rounded border">SNI 2847-2019 (Beton)</a>
-                    <a href="SNI 4153-2019 - Metode Uji Penetrasi Standar (SPT) dan Pengambilan Contoh Tanah Dengan Tabung Belah (ASTM D 1586-11, IDT).pdf" target="_blank" class="p-2 bg-gray-50 hover:bg-blue-100 rounded border">SNI 4153-2019 (SPT)</a>
-                    <a href="SNI 8064-2016.pdf" target="_blank" class="p-2 bg-gray-50 hover:bg-blue-100 rounded border">SNI 8064-2016 (Lereng)</a>
-                    <a href="SNI 8153-2015 Sistem Plambing Pada Bangunan Gedung.pdf" target="_blank" class="p-2 bg-gray-50 hover:bg-blue-100 rounded border">SNI 8153-2015 (Plambing)</a>
-                    <a href="SNI 8460-2017 Persyaratan Perancangan Geoteknik.pdf" target="_blank" class="p-2 bg-gray-50 hover:bg-blue-100 rounded border">SNI 8460-2017 (Geoteknik)</a>
-                    <a href="SNI_2052-2002-2017.pdf" target="_blank" class="p-2 bg-gray-50 hover:bg-blue-100 rounded border">SNI 2052:2017 (Baja Tulangan)</a>
+        <section id="pantau-sni" class="active-section animate-fadeIn">
+            <div class="flex overflow-x-auto border-b mb-6 text-xs uppercase font-bold text-gray-400 gap-6 px-2">
+                <button onclick="switchSubTab('gudang-sni')" id="btn-gudang-sni" class="pb-3 tab-active">📂 Gudang SNI</button>
+                <button onclick="switchSubTab('cek-standar')" id="btn-cek-standar" class="pb-3">🔍 Cek Standar</button>
+                <button onclick="switchSubTab('arsip-hasil')" id="btn-arsip-hasil" class="pb-3">📤 Arsip Hasil</button>
+            </div>
+
+            <div id="sub-gudang-sni" class="block">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <a href="SNI 2847-2019 Persyaratan Beton Struktural Untuk Bangunan Gedung.pdf" target="_blank" class="p-4 bg-white rounded-xl shadow-sm border-l-4 border-blue-600 hover:shadow-md transition flex justify-between items-center group">
+                        <span class="text-sm font-bold">SNI 2847-2019 (Beton)</span>
+                        <i class="fas fa-external-link-alt text-gray-300 group-hover:text-blue-600"></i>
+                    </a>
+                    <a href="1727 - SNI 1727-2020 Beban desain minimum dan kriteria terkait untuk bangunan gedung dan struktur lain.pdf" target="_blank" class="p-4 bg-white rounded-xl shadow-sm border-l-4 border-blue-600 hover:shadow-md transition flex justify-between items-center group">
+                        <span class="text-sm font-bold text-wrap">SNI 1727-2020 (Beban)</span>
+                        <i class="fas fa-external-link-alt text-gray-300 group-hover:text-blue-600"></i>
+                    </a>
+                    <a href="SNI 1726-2012.pdf" target="_blank" class="p-4 bg-white rounded-xl shadow-sm border-l-4 border-blue-600 hover:shadow-md transition flex justify-between items-center">
+                        <span class="text-sm font-bold">SNI 1726-2012 (Gempa)</span>
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
+                    <a href="1729 - SNI 1729-2020 Spesifikasi untuk bangunan gedung baja struktural.pdf" target="_blank" class="p-4 bg-white rounded-xl shadow-sm border-l-4 border-blue-600 hover:shadow-md transition flex justify-between items-center">
+                        <span class="text-sm font-bold">SNI 1729-2020 (Baja)</span>
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
+                    <a href="0225 - SNI 0225-2020 Persyaratan Umum Instalasi Listrik (PUIL 2020).pdf" target="_blank" class="p-4 bg-white rounded-xl shadow-sm border-l-4 border-blue-600 hover:shadow-md transition flex justify-between items-center">
+                        <span class="text-sm font-bold">SNI 0225-2020 (PUIL)</span>
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
+                    <a href="SNI 8460-2017 Persyaratan Perancangan Geoteknik.pdf" target="_blank" class="p-4 bg-white rounded-xl shadow-sm border-l-4 border-blue-600 hover:shadow-md transition flex justify-between items-center">
+                        <span class="text-sm font-bold">SNI 8460-2017 (Geoteknik)</span>
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
+                    <a href="SNI_2052-2002-2017.pdf" target="_blank" class="p-4 bg-white rounded-xl shadow-sm border-l-4 border-blue-600 hover:shadow-md transition flex justify-between items-center">
+                        <span class="text-sm font-bold">SNI 2052:2017 (Baja Tulangan)</span>
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
+                    <a href="SNI 4153-2019 - Metode Uji Penetrasi Standar (SPT) dan Pengambilan Contoh Tanah Dengan Tabung Belah (ASTM D 1586-11, IDT).pdf" target="_blank" class="p-4 bg-white rounded-xl shadow-sm border-l-4 border-blue-600 hover:shadow-md transition flex justify-between items-center">
+                        <span class="text-sm font-bold text-wrap leading-tight">SNI 4153-2019 (SPT)</span>
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
+                    <a href="SNI 8153-2015 Sistem Plambing Pada Bangunan Gedung.pdf" target="_blank" class="p-4 bg-white rounded-xl shadow-sm border-l-4 border-blue-600 hover:shadow-md transition flex justify-between items-center text-wrap">
+                        <span class="text-sm font-bold">SNI 8153-2015 (Plambing)</span>
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
+                    <a href="SNI 8064-2016.pdf" target="_blank" class="p-4 bg-white rounded-xl shadow-sm border-l-4 border-blue-600 hover:shadow-md transition flex justify-between items-center">
+                        <span class="text-sm font-bold">SNI 8064-2016</span>
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
                 </div>
             </div>
 
-            <div class="bg-white p-4 rounded-xl shadow mb-4">
-                <h4 class="font-bold text-blue-700 mb-3"><i class="fas fa-file-excel"></i> Cek Standar (Validasi Excel)</h4>
-                <input type="file" id="input-validasi" accept=".xlsx, .xls" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 border p-2 rounded">
-                <button onclick="simpanArsip('Validasi')" class="mt-3 bg-green-600 text-white px-4 py-2 rounded text-sm hover:bg-green-700">Validasi & Arsipkan</button>
+            <div id="sub-cek-standar" class="hidden text-center max-w-lg mx-auto bg-white p-8 rounded-3xl shadow-sm border">
+                <i class="fas fa-file-excel text-5xl text-green-600 mb-4"></i>
+                <h4 class="font-black uppercase mb-4 text-blue-900">Validasi Standar Proyek</h4>
+                <input type="file" id="input-validasi" class="block w-full text-sm border-2 border-dotted p-4 rounded-2xl mb-4 bg-gray-50">
+                <button onclick="saveToLocal('Validasi')" class="w-full bg-blue-900 text-white py-4 rounded-2xl font-bold shadow-lg hover:bg-blue-800">VALIDASI & SIMPAN</button>
             </div>
 
-            <div class="bg-white p-4 rounded-xl shadow">
-                <h4 class="font-bold text-blue-700 mb-2"><i class="fas fa-history"></i> Arsip Hasil</h4>
-                <p class="text-xs text-gray-500 mb-2">*Hasil validasi otomatis masuk ke Monitoring Realtime.</p>
-                <div id="list-arsip" class="text-sm"></div>
+            <div id="sub-arsip-hasil" class="hidden max-w-lg mx-auto bg-white p-6 rounded-3xl shadow-sm border text-center">
+                <p class="text-sm text-gray-500 italic">Hasil validasi dan dokumen SNI yang diproses akan muncul di menu Monitoring secara otomatis.</p>
             </div>
         </section>
 
         <section id="pantau-lapangan" class="hidden-section">
-            <h3 class="text-xl font-bold mb-4 border-l-4 border-blue-600 pl-2">Pantau Lapangan</h3>
-            
-            <div class="bg-white p-4 rounded-xl shadow mb-4">
-                <h4 class="font-bold text-blue-700 mb-3">Laporan Lapangan</h4>
-                <div class="space-y-3">
-                    <input type="text" id="jenis-kerja" placeholder="Jenis Pekerjaan" class="w-full border p-2 rounded">
-                    <textarea id="uraian" placeholder="Uraian Pekerjaan" class="w-full border p-2 rounded"></textarea>
-                    <div>
-                        <label class="text-xs text-gray-500">Persentase (%)</label>
-                        <input type="number" id="persentase" class="w-full border p-2 rounded">
+            <div class="flex overflow-x-auto border-b mb-6 text-xs uppercase font-bold text-gray-400 gap-6 px-2">
+                <button onclick="switchSubTab('lap-harian')" id="btn-lap-harian" class="pb-3 tab-active">📝 Laporan Harian</button>
+                <button onclick="switchSubTab('persentase-lap')" id="btn-persentase-lap" class="pb-3">📊 Persentase</button>
+            </div>
+
+            <div id="sub-lap-harian" class="max-w-xl mx-auto bg-white p-8 rounded-3xl shadow-lg border">
+                <div class="space-y-4">
+                    <input type="text" id="kerja" placeholder="Jenis Pekerjaan" class="w-full p-4 bg-gray-50 rounded-2xl border-2 outline-none focus:border-blue-500">
+                    <textarea id="desc" placeholder="Uraian pekerjaan..." class="w-full p-4 bg-gray-50 rounded-2xl border-2 min-h-[100px]"></textarea>
+                    <div class="flex items-center gap-4 bg-blue-50 p-4 rounded-2xl">
+                        <span class="text-sm font-bold text-blue-900">Progres %</span>
+                        <input type="number" id="persen" class="w-20 p-2 rounded-lg border-2">
                     </div>
-                    <input type="file" id="input-lapangan" class="w-full text-sm border p-2 rounded">
-                    <button onclick="simpanArsip('Lapangan')" class="w-full bg-blue-600 text-white py-2 rounded font-bold">Kirim Laporan</button>
+                    <input type="file" id="file-lap" class="w-full text-sm">
+                    <button onclick="saveToLocal('Lapangan')" class="w-full bg-green-700 text-white py-4 rounded-2xl font-bold uppercase tracking-widest shadow-xl">Kirim ke Monitoring</button>
                 </div>
+            </div>
+
+            <div id="sub-persentase-lap" class="hidden text-center p-10">
+                <p class="text-gray-400 italic">Data persentase dihitung otomatis berdasarkan laporan yang masuk.</p>
             </div>
         </section>
 
         <section id="monitoring-realtime" class="hidden-section">
-            <h3 class="text-xl font-bold mb-4 border-l-4 border-blue-600 pl-2">Monitoring Realtime</h3>
-            <div id="container-realtime" class="space-y-4">
-                <p class="text-center text-gray-400 italic">Belum ada data masuk...</p>
-            </div>
+            <div id="realtime-list" class="space-y-4 max-w-2xl mx-auto">
+                </div>
         </section>
-
     </main>
 
-    <footer class="fixed bottom-0 w-full bg-white border-t p-2 text-center">
-        <p class="text-[10px] text-gray-400 uppercase tracking-widest font-bold">by tegar imam prasojo</p>
+    <footer class="fixed bottom-0 w-full bg-white/80 backdrop-blur-md border-t p-3 text-center z-40">
+        <p class="text-[10px] font-black text-gray-400 tracking-[0.3em] uppercase">by tegar imam prasojo</p>
     </footer>
 
     <script>
-        // Inisialisasi data dari Local Storage
-        let dataMonitoring = JSON.parse(localStorage.getItem('sipantau_data')) || [];
+        // TOGGLE DROPDOWN (BERTALAN LAMA)
+        const btnMenu = document.getElementById('btn-menu');
+        const dropdown = document.getElementById('dropdown-menu');
 
-        function showPage(pageId) {
+        btnMenu.addEventListener('click', (e) => {
+            e.stopPropagation();
+            dropdown.classList.toggle('hidden');
+        });
+
+        window.addEventListener('click', () => {
+            dropdown.classList.add('hidden');
+        });
+
+        // NAVIGASI UTAMA
+        function switchMainPage(pageId) {
             document.querySelectorAll('section').forEach(s => s.classList.replace('active-section', 'hidden-section'));
             document.getElementById(pageId).classList.replace('hidden-section', 'active-section');
             
-            // Ubah judul sub sesuai menu
             const titles = {
                 'pantau-sni': 'Pantau SNI',
                 'pantau-lapangan': 'Pantau Lapangan',
                 'monitoring-realtime': 'Monitoring Realtime'
             };
-            document.getElementById('main-title').innerText = titles[pageId].toUpperCase();
+            document.getElementById('display-title').innerText = titles[pageId];
             
-            if(pageId === 'monitoring-realtime') renderMonitoring();
+            if(pageId === 'monitoring-realtime') renderData();
         }
 
-        function simpanArsip(sumber) {
-            const date = new Date().toLocaleString('id-ID');
-            let item = { id: Date.now(), tanggal: date, sumber: sumber };
+        // NAVIGASI SUB-TAB (FITUR TERPISAH)
+        function switchSubTab(subId) {
+            // Sembunyikan semua sub-content di section yang aktif
+            const parent = document.querySelector('.active-section');
+            parent.querySelectorAll('[id^="sub-"]').forEach(s => s.classList.add('hidden'));
+            parent.querySelectorAll('[id^="btn-"]').forEach(b => b.classList.remove('tab-active'));
+            
+            document.getElementById(subId).classList.remove('hidden');
+            document.getElementById('btn-' + subId).classList.add('tab-active');
+        }
 
-            if(sumber === 'Lapangan') {
-                item.judul = document.getElementById('jenis-kerja').value;
-                item.uraian = document.getElementById('uraian').value;
-                item.persen = document.getElementById('persentase').value;
-                item.file = document.getElementById('input-lapangan').files[0]?.name || 'Tanpa File';
+        // LOCAL STORAGE LOGIC
+        function saveToLocal(kategori) {
+            let storage = JSON.parse(localStorage.getItem('db_sipantau')) || [];
+            let item = { id: Date.now(), tgl: new Date().toLocaleString('id-ID'), tipe: kategori };
+
+            if(kategori === 'Lapangan') {
+                item.judul = document.getElementById('kerja').value;
+                item.info = document.getElementById('desc').value;
+                item.persen = document.getElementById('persen').value;
+                item.file = document.getElementById('file-lap').files[0]?.name || 'Laporan_Img.pdf';
             } else {
-                item.judul = "Hasil Validasi SNI";
-                item.file = document.getElementById('input-validasi').files[0]?.name || 'data_validasi.xlsx';
+                item.judul = "Hasil Validasi Standar";
+                item.file = document.getElementById('input-validasi').files[0]?.name || 'Hasil_Cek.xlsx';
             }
 
-            dataMonitoring.push(item);
-            localStorage.setItem('sipantau_data', JSON.stringify(dataMonitoring));
-            alert('Data berhasil dikirim ke Monitoring Realtime!');
-            renderMonitoring();
+            if(!item.judul) return alert("Harap isi data dengan lengkap!");
+
+            storage.push(item);
+            localStorage.setItem('db_sipantau', JSON.stringify(storage));
+            alert("Data Berhasil Disimpan di Monitoring!");
+            switchMainPage('monitoring-realtime');
         }
 
-        function renderMonitoring() {
-            const container = document.getElementById('container-realtime');
-            if(dataMonitoring.length === 0) return;
+        function renderData() {
+            const list = document.getElementById('realtime-list');
+            const data = JSON.parse(localStorage.getItem('db_sipantau')) || [];
+            
+            if(data.length === 0) {
+                list.innerHTML = `<div class="text-center p-20 text-gray-300 italic">Belum ada arsip data...</div>`;
+                return;
+            }
 
-            container.innerHTML = dataMonitoring.map(data => `
-                <div class="bg-white p-4 rounded-xl shadow border-l-4 ${data.sumber === 'Lapangan' ? 'border-orange-500' : 'border-blue-500'}">
-                    <div class="flex justify-between items-start">
-                        <h5 class="font-bold text-gray-800">${data.judul}</h5>
-                        <span class="text-[10px] bg-gray-100 px-2 py-1 rounded">${data.tanggal}</span>
-                    </div>
-                    ${data.uraian ? `<p class="text-sm text-gray-600 mt-1">${data.uraian}</p>` : ''}
-                    ${data.persen ? `
-                        <div class="w-full bg-gray-200 h-2 rounded-full mt-2">
-                            <div class="bg-green-500 h-2 rounded-full" style="width: ${data.persen}%"></div>
+            list.innerHTML = data.map(d => `
+                <div class="bg-white p-5 rounded-3xl shadow-sm border-2 border-gray-50 relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 p-2 bg-gray-100 text-[9px] font-bold text-gray-500 rounded-bl-xl">${d.tgl}</div>
+                    <span class="text-[10px] font-black uppercase px-3 py-1 rounded-full ${d.tipe === 'Lapangan' ? 'bg-orange-100 text-orange-600' : 'bg-blue-100 text-blue-600'}">${d.tipe}</span>
+                    <h4 class="mt-3 font-bold text-gray-800">${d.judul}</h4>
+                    ${d.info ? `<p class="text-xs text-gray-500 mt-1">${d.info}</p>` : ''}
+                    ${d.persen ? `
+                        <div class="flex items-center gap-3 mt-3">
+                            <div class="flex-1 bg-gray-100 h-2 rounded-full"><div class="bg-green-500 h-2 rounded-full" style="width: ${d.persen}%"></div></div>
+                            <span class="text-[10px] font-bold text-green-600">${d.persen}%</span>
                         </div>
-                        <p class="text-right text-[10px] font-bold mt-1 text-green-600">${data.persen}% Selesai</p>
                     ` : ''}
-                    <div class="mt-3 pt-2 border-t flex justify-between items-center">
-                        <span class="text-xs text-blue-600 font-mono"><i class="fas fa-file"></i> ${data.file}</span>
-                        <button class="text-xs bg-blue-100 text-blue-700 px-3 py-1 rounded hover:bg-blue-200">Buka File</button>
+                    <div class="mt-4 pt-3 border-t flex justify-between items-center">
+                        <span class="text-[10px] text-gray-400 font-mono italic">${d.file}</span>
+                        <button class="bg-blue-900 text-white text-[10px] px-4 py-2 rounded-xl font-bold">BUKA DOKUMEN</button>
                     </div>
                 </div>
             `).reverse().join('');
         }
-
-        // Tampilan awal
-        showPage('pantau-sni');
     </script>
 </body>
 </html>
