@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIPANTAU CIPTA KARYA - DPRKPCK JATIM</title>
+    <title>SIPANTAU CIPTA KARYA - DPRKPCK</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
@@ -11,20 +11,16 @@
         .tab-active { border-bottom: 4px solid #facc15; color: #facc15; }
         .animate-fadeIn { animation: fadeIn 0.4s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        #listSNI::-webkit-scrollbar { width: 4px; }
-        #listSNI::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
     </style>
 </head>
-<body class="bg-gray-50 font-sans text-gray-900 flex flex-col min-h-screen">
+<body class="bg-gray-50 font-sans text-gray-900">
 
-    <nav class="bg-blue-900 text-white shadow-xl sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center gap-4">
-                <div class="bg-white p-1 rounded-xl shadow-inner">
-                    <img src="logo.png" alt="Logo" class="h-12 w-12 object-contain" onerror="this.src='https://via.placeholder.com/50?text=LOGO'">
-                </div>
+    <nav class="bg-blue-900 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <img src="logo.png" alt="Logo" class="h-12 w-auto object-contain bg-white p-1 rounded-full shadow-sm">
                 <div>
-                    <h1 class="text-xl font-black tracking-tighter leading-none uppercase italic">SIPANTAU CIPTA KARYA</h1>
+                    <h1 id="mainTitle" class="text-xl font-black tracking-tight leading-none uppercase">SIPANTAU CIPTA KARYA</h1>
                     <p class="text-[10px] tracking-[0.2em] font-bold text-yellow-400 uppercase">DPRKPCK Prov. Jawa Timur</p>
                 </div>
             </div>
@@ -34,185 +30,163 @@
                     <svg width="24" height="24" viewBox="0 0 16 16" fill="currentColor"><path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/></svg>
                 </button>
                 <div id="dropdownMenu" class="hidden absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border z-50 overflow-hidden text-gray-800">
-                    <button onclick="switchMajorMenu('sni')" class="w-full text-left px-4 py-4 text-sm font-bold hover:bg-blue-50 flex items-center gap-3 border-b">📂 PANTAU SNI</button>
-                    <button onclick="switchMajorMenu('lapangan')" class="w-full text-left px-4 py-4 text-sm font-bold hover:bg-blue-50 flex items-center gap-3">🏗️ PANTAU LAPANGAN</button>
+                    <button onclick="switchMajorMenu('sni')" class="w-full text-left px-4 py-4 text-sm font-bold hover:bg-blue-50 flex items-center gap-3 border-b">
+                        📂 PANTAU SNI
+                    </button>
+                    <button onclick="switchMajorMenu('lapangan')" class="w-full text-left px-4 py-4 text-sm font-bold hover:bg-blue-50 flex items-center gap-3">
+                        🏗️ PANTAU LAPANGAN
+                    </button>
                 </div>
             </div>
         </div>
     </nav>
 
-    <main class="flex-grow max-w-7xl mx-auto p-6 w-full">
+    <div class="max-w-7xl mx-auto p-4 md:p-8">
         
         <div id="section-sni" class="animate-fadeIn">
-            <div class="flex space-x-6 border-b-2 mb-8 text-xs font-bold text-gray-400 overflow-x-auto whitespace-nowrap uppercase">
+            <div class="flex space-x-6 border-b-2 mb-8 text-xs font-bold text-gray-400 overflow-x-auto whitespace-nowrap px-2 uppercase">
                 <button onclick="switchSubTab('gudang')" id="tab-gudang" class="pb-3 tab-active">📂 Gudang SNI</button>
                 <button onclick="switchSubTab('cek')" id="tab-cek" class="pb-3">🔍 Cek SNI</button>
                 <button onclick="switchSubTab('laporansni')" id="tab-laporansni" class="pb-3">📤 Laporan Final</button>
             </div>
 
-            <div id="sub-gudang" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div id="sub-gudang" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-white p-6 rounded-2xl border-l-8 border-blue-600 shadow-sm">
+                    <h3 class="font-bold text-sm mb-4 text-blue-900 uppercase">Daftar Dokumen Utama</h3>
+                    <div class="space-y-2 text-sm">
+                        <a href="#" class="block p-3 bg-gray-50 rounded-xl border flex justify-between items-center hover:bg-blue-50 transition">
+                            <span>SNI 2847-2019 (Beton)</span>
+                            <span class="text-[10px] bg-blue-100 text-blue-800 px-2 py-1 rounded font-bold uppercase">Buka</span>
+                        </a>
+                        </div>
                 </div>
+            </div>
 
-            <div id="sub-cek" class="hidden">
-                <div class="max-w-xl mx-auto bg-white p-10 rounded-[2.5rem] border shadow-sm text-center">
-                    <h2 class="text-xl font-black uppercase italic mb-6">Validasi Standar SNI</h2>
-                    <div class="border-4 border-dashed border-gray-100 p-8 rounded-3xl mb-6">
-                        <input type="file" id="excelInput" class="hidden" accept=".xlsx, .xls">
-                        <label for="excelInput" class="cursor-pointer inline-block bg-blue-900 text-white px-10 py-4 rounded-2xl font-black shadow-lg hover:bg-blue-800 transition uppercase text-sm">Upload Excel Data</label>
-                        <p id="excelStatus" class="mt-4 text-sm font-bold text-gray-400 italic">Menunggu file laporan...</p>
-                    </div>
+            <div id="sub-cek" class="hidden text-center">
+                <div class="max-w-xl mx-auto bg-white p-8 rounded-3xl border shadow-sm">
+                    <h2 class="text-xl font-black uppercase italic mb-4">Validasi Standar SNI</h2>
+                    <input type="file" id="excelInput" class="hidden">
+                    <label for="excelInput" class="cursor-pointer inline-block bg-blue-900 text-white px-8 py-4 rounded-2xl font-black shadow-lg hover:bg-blue-800 transition">UPLOAD EXCEL DATA</label>
+                    <div id="excelStatus" class="mt-6 min-h-[50px] flex items-center justify-center font-bold text-sm text-gray-400">Menunggu data...</div>
                 </div>
             </div>
 
             <div id="sub-laporansni" class="hidden">
-                <div class="max-w-xl mx-auto bg-white p-8 rounded-[2.5rem] border shadow-sm border-t-[10px] border-blue-900">
-                    <h2 class="text-xl font-black uppercase italic mb-6 text-blue-900 text-center">Arsip Laporan SNI</h2>
+                <div class="max-w-xl mx-auto bg-white p-8 rounded-3xl border shadow-sm">
+                    <h2 class="text-xl font-black uppercase italic mb-4 text-blue-900 text-center">Arsip Laporan SNI</h2>
                     <div class="space-y-4">
-                        <input type="text" id="idProyekSNI" placeholder="Nama Bangunan / Gedung" class="w-full p-4 bg-gray-50 border rounded-2xl outline-none focus:ring-2 ring-blue-500 font-bold">
-                        <input type="file" id="fileSNI" class="w-full p-3 bg-gray-50 border rounded-2xl text-xs font-bold">
-                        <button onclick="simpanData('SNI')" class="w-full bg-blue-900 text-white font-black py-4 rounded-2xl shadow-lg hover:bg-blue-800 transition uppercase tracking-widest">Kirim ke Database</button>
+                        <input type="text" id="idProyekSNI" placeholder="Nama Bangunan / Gedung" class="w-full p-4 border-2 rounded-2xl outline-none focus:border-blue-500 bg-gray-50">
+                        <input type="file" class="w-full p-3 border-2 border-dotted rounded-2xl bg-gray-50">
+                        <button onclick="kirimDataFirebase('SNI')" class="w-full bg-blue-900 text-white font-black py-4 rounded-2xl shadow-lg hover:bg-blue-800 transition uppercase tracking-widest">Kirim ke Firebase</button>
                     </div>
                 </div>
             </div>
         </div>
 
         <div id="section-lapangan" class="hidden animate-fadeIn">
-            <div class="flex space-x-6 border-b-2 mb-8 text-xs font-bold text-gray-400 uppercase">
-                <button onclick="switchSubTab('lapMingguan')" id="tab-lapMingguan" class="pb-3 tab-active">📝 Input Progres</button>
-                <button onclick="switchSubTab('presentase')" id="tab-presentase" class="pb-3">📊 Dashboard Monitoring</button>
+            <div class="flex space-x-6 border-b-2 mb-8 text-xs font-bold text-gray-400 overflow-x-auto whitespace-nowrap px-2 uppercase">
+                <button onclick="switchSubTab('lapMingguan')" id="tab-lapMingguan" class="pb-3 tab-active">📝 Laporan Lapangan</button>
+                <button onclick="switchSubTab('presentase')" id="tab-presentase" class="pb-3">📊 Presentase Lapangan</button>
             </div>
 
             <div id="sub-lapMingguan" class="max-w-xl mx-auto">
-                <div class="bg-white p-8 rounded-[2.5rem] border shadow-sm border-t-[10px] border-green-700">
-                    <h2 class="text-xl font-black uppercase italic mb-6 text-green-700 text-center">Update Progres Lapangan</h2>
+                <div class="bg-white p-8 rounded-3xl border shadow-sm">
+                    <h2 class="text-xl font-black uppercase italic mb-4 text-green-700 text-center">Progres Mingguan</h2>
                     <div class="space-y-4">
-                        <input type="text" id="idProyekLap" placeholder="Nama Proyek / Lokasi" class="w-full p-4 bg-gray-50 border rounded-2xl outline-none focus:ring-2 ring-green-500 font-bold">
-                        <input type="number" id="persenFisik" placeholder="Progres Fisik (%)" class="w-full p-4 bg-gray-50 border rounded-2xl font-bold">
-                        <button onclick="simpanData('LAP')" class="w-full bg-green-700 text-white font-black py-4 rounded-2xl shadow-lg hover:bg-green-600 transition uppercase tracking-widest">Update Data Lapangan</button>
+                        <input type="text" id="idProyekLap" placeholder="Nama Proyek / Lokasi" class="w-full p-4 border-2 rounded-2xl outline-none focus:border-green-500 bg-gray-50">
+                        <textarea id="deskripsiProgres" placeholder="Deskripsi progres mingguan..." class="w-full p-4 border-2 rounded-2xl min-h-[120px] bg-gray-50"></textarea>
+                        <input type="file" class="w-full p-3 border-2 border-dotted rounded-2xl bg-gray-50">
+                        <button onclick="kirimDataFirebase('Lapangan')" class="w-full bg-green-700 text-white font-black py-4 rounded-2xl shadow-lg hover:bg-green-600 transition uppercase tracking-widest">Update Laporan Lapangan</button>
                     </div>
                 </div>
             </div>
 
-            <div id="sub-presentase" class="hidden space-y-6">
-                <div class="flex justify-between items-center">
-                    <h2 class="text-2xl font-black text-blue-900 uppercase italic">Monitoring Proyek</h2>
-                    <button onclick="resetData()" class="text-[10px] font-black text-red-500 uppercase border border-red-200 px-4 py-2 rounded-full hover:bg-red-50">Reset Semua Data</button>
-                </div>
-                <div id="displayContainer" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div id="sub-presentase" class="hidden">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border text-center">
+                        <h4 class="text-xs font-bold text-gray-400 uppercase">Total Capaian</h4>
+                        <div class="text-4xl font-black text-blue-900 mt-2">75%</div>
+                        <div class="w-full bg-gray-200 h-2 mt-4 rounded-full"><div class="bg-blue-600 h-2 w-[75%] rounded-full"></div></div>
+                    </div>
                     </div>
             </div>
         </div>
-    </main>
+    </div>
+
+    <script type="module">
+        // Kamu tinggal masukkan firebaseConfig kamu di sini nanti
+        window.kirimDataFirebase = function(tipe) {
+            let nama;
+            if(tipe === 'SNI') nama = document.getElementById('idProyekSNI').value;
+            if(tipe === 'Lapangan') nama = document.getElementById('idProyekLap').value;
+
+            if(!nama) return alert("Harap isi Nama Proyek!");
+            
+            alert(`Berhasil! Data ${tipe} proyek "${nama}" siap dikirim ke Firebase.`);
+            // Integrasi push() Firebase diletakkan di sini
+        }
+    </script>
 
     <script>
-        // DATABASE 10 SNI UTAMA (Tambahkan link GitHub Anda di sini)
-        const databaseSNI = [
-            { no: "2847:2019", judul: "Persyaratan Beton Struktural", url: "#" },
-            { no: "1726:2019", judul: "Tata Cara Perencanaan Ketahanan Gempa", url: "#" },
-            { no: "1727:2020", judul: "Beban Desain Minimum Bangunan", url: "#" },
-            { no: "1729:2020", judul: "Spesifikasi Bangunan Gedung Baja", url: "#" },
-            { no: "8460:2017", judul: "Persyaratan Teknis Geoteknik", url: "#" },
-            { no: "2052:2017", judul: "Baja Tulangan Beton", url: "#" },
-            { no: "1734:2015", judul: "Perancangan Beton Bertulang", url: "#" },
-            { no: "7971:2013", judul: "Struktur Kayu Konstruksi", url: "#" },
-            { no: "8151:2015", judul: "Sistem Panel Beton Precast", url: "#" },
-            { no: "1735:2015", judul: "Sistem Proteksi Kebakaran", url: "#" }
-        ];
-
-        function renderGudangSNI() {
-            const container = document.getElementById('sub-gudang');
-            container.innerHTML = databaseSNI.map(item => `
-                <div class="bg-white p-5 rounded-2xl border shadow-sm border-l-[6px] border-blue-900 hover:shadow-md transition group">
-                    <h4 class="font-black text-blue-900 text-sm">SNI ${item.no}</h4>
-                    <p class="text-[10px] text-gray-500 font-bold uppercase mt-1 leading-tight">${item.judul}</p>
-                    <a href="${item.url}" target="_blank" class="mt-4 inline-block text-[10px] font-black bg-blue-50 text-blue-900 px-4 py-2 rounded-lg group-hover:bg-blue-900 group-hover:text-white transition-colors">LIHAT DOKUMEN ↗</a>
-                </div>
-            `).join('');
-        }
-
-        // FUNGSI SIMPAN DATA (LOCALSTORAGE)
-        function simpanData(tipe) {
-            let storageKey = 'sipantau_db_v2';
-            let dataLama = JSON.parse(localStorage.getItem(storageKey)) || [];
-            let entry = { id: Date.now(), waktu: new Date().toLocaleString() };
-
-            if(tipe === 'SNI') {
-                const nama = document.getElementById('idProyekSNI').value;
-                if(!nama) return alert("Nama Proyek Wajib Diisi!");
-                entry = { ...entry, tipe: 'SNI', nama: nama, info: 'Laporan SNI Terarsip' };
-            } else {
-                const nama = document.getElementById('idProyekLap').value;
-                const persen = document.getElementById('persenFisik').value;
-                if(!nama || !persen) return alert("Isi Proyek dan Persentase!");
-                entry = { ...entry, tipe: 'LAP', nama: nama, info: persen + '%' };
-            }
-
-            dataLama.unshift(entry);
-            localStorage.setItem(storageKey, JSON.stringify(dataLama));
-            alert("Data Berhasil Disimpan!");
-            
-            // Auto switch ke dashboard
-            if(tipe === 'LAP') {
-                switchSubTab('presentase');
-            }
-            refreshDisplay();
-        }
-
-        function refreshDisplay() {
-            const data = JSON.parse(localStorage.getItem('sipantau_db_v2')) || [];
-            const container = document.getElementById('displayContainer');
-            container.innerHTML = data.map(item => `
-                <div class="bg-white p-6 rounded-[2rem] border shadow-sm flex justify-between items-center border-l-[8px] ${item.tipe === 'SNI' ? 'border-blue-900' : 'border-green-600'}">
-                    <div>
-                        <p class="text-[10px] font-black text-gray-400 uppercase">${item.tipe === 'SNI' ? '📂 ARSIP SNI' : '🏗️ PROGRES LAPANGAN'}</p>
-                        <h3 class="font-black text-gray-800 uppercase mt-1">${item.nama}</h3>
-                        <p class="text-[9px] text-gray-400 font-bold italic">${item.waktu}</p>
-                    </div>
-                    <div class="text-right">
-                        <span class="text-xl font-black ${item.tipe === 'SNI' ? 'text-blue-900' : 'text-green-700'}">${item.info}</span>
-                    </div>
-                </div>
-            `).join('');
-        }
-
         // NAVIGATION LOGIC
         function switchMajorMenu(menu) {
-            document.getElementById('section-sni').classList.toggle('hidden', menu !== 'sni');
-            document.getElementById('section-lapangan').classList.toggle('hidden', menu !== 'lapangan');
+            const sections = ['sni', 'lapangan'];
+            sections.forEach(s => document.getElementById('section-' + s).classList.add('hidden'));
+            document.getElementById('section-' + menu).classList.remove('hidden');
             document.getElementById('dropdownMenu').classList.add('hidden');
+            
+            // Auto-reset subtab saat ganti menu utama
             if(menu === 'sni') switchSubTab('gudang');
             if(menu === 'lapangan') switchSubTab('lapMingguan');
         }
 
         function switchSubTab(sub) {
-            const tabs = ['gudang', 'cek', 'laporansni', 'lapMingguan', 'presentase'];
-            tabs.forEach(t => {
-                const el = document.getElementById('sub-' + t);
-                const btn = document.getElementById('tab-' + t);
+            const allSubs = ['gudang', 'cek', 'laporansni', 'lapMingguan', 'presentase'];
+            allSubs.forEach(s => {
+                const el = document.getElementById('sub-' + s);
                 if(el) el.classList.add('hidden');
-                if(btn) btn.classList.remove('tab-active');
+                const tab = document.getElementById('tab-' + s);
+                if(tab) tab.classList.remove('tab-active');
             });
             document.getElementById('sub-' + sub).classList.remove('hidden');
             document.getElementById('tab-' + sub).classList.add('tab-active');
         }
 
-        function resetData() {
-            if(confirm("Hapus semua riwayat monitoring?")) {
-                localStorage.removeItem('sipantau_db_v2');
-                refreshDisplay();
-            }
-        }
-
-        // Init
+        // Dropdown Toggle
         const menuBtn = document.getElementById('menuBtn');
         const dropdownMenu = document.getElementById('dropdownMenu');
         menuBtn.onclick = (e) => { e.stopPropagation(); dropdownMenu.classList.toggle('hidden'); };
         window.onclick = () => dropdownMenu.classList.add('hidden');
 
-        window.onload = () => {
-            renderGudangSNI();
-            refreshDisplay();
-        };
+        // Logic Excel (Gunakan fungsi lama kamu di sini)
+        document.getElementById('excelInput').addEventListener('change', function(e) {
+            // ... (Kode XLSX lama kamu tetap sama) ...
+            document.getElementById('excelStatus').innerHTML = "File terbaca!";
+        });
     </script>
+
+    <script type="module">
+  	// Import the functions you need from the SDKs you need
+	import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+ 	import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-analytics.js";
+  	// TODO: Add SDKs for Firebase products that you want to use
+  	// https://firebase.google.com/docs/web/setup#available-libraries
+
+  	// Your web app's Firebase configuration
+  	// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  	const firebaseConfig = {
+    	  apiKey: "AIzaSyAKzTql5a5Qse3g_dN024Vb3Kis22oiOSE",
+   	  authDomain: "sipantau-ciptakarya.firebaseapp.com",
+   	  projectId: "sipantau-ciptakarya",
+     	  storageBucket: "sipantau-ciptakarya.firebasestorage.app",
+    	  messagingSenderId: "702735669301",
+   	  appId: "1:702735669301:web:f0f060bb1e74865898397c",
+   	  measurementId: "G-5VZ24DQTLD"
+  	};
+
+  	// Initialize Firebase
+  	const app = initializeApp(firebaseConfig);
+  	const analytics = getAnalytics(app);
+	</script>
 </body>
 </html>
