@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIPANTAU CIPTAKARYA - DPRKPCK JATIM</title>
+    <title>SIPANTAU CIPTA KARYA - DPRKPCK JATIM</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
         .hidden { display: none; }
+        .tab-active { border-bottom: 4px solid #facc15; color: #facc15; }
         .animate-fadeIn { animation: fadeIn 0.4s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         #listSNI::-webkit-scrollbar { width: 4px; }
@@ -22,155 +24,195 @@
                     <img src="logo.png" alt="Logo" class="h-12 w-12 object-contain" onerror="this.src='https://via.placeholder.com/50?text=LOGO'">
                 </div>
                 <div>
-                    <h1 class="text-2xl font-black tracking-tighter leading-none uppercase italic text-white">SIPANTAU CIPTAKARYA</h1>
-                    <p class="text-xs tracking-[0.3em] font-bold text-yellow-400 uppercase mt-1">DPRKPCK Jatim</p>
+                    <h1 class="text-xl font-black tracking-tighter leading-none uppercase italic">SIPANTAU CIPTA KARYA</h1>
+                    <p class="text-[10px] tracking-[0.2em] font-bold text-yellow-400 uppercase">DPRKPCK Prov. Jawa Timur</p>
                 </div>
             </div>
             
-            <div class="flex gap-8">
-                <button onclick="switchMenu('input')" class="text-xs font-black uppercase tracking-widest hover:text-yellow-400 transition-colors">Input Data</button>
-                <button onclick="switchMenu('monitor')" class="text-xs font-black uppercase tracking-widest hover:text-yellow-400 transition-colors">Monitoring</button>
+            <div class="relative">
+                <button id="menuBtn" class="p-2 hover:bg-blue-800 rounded-lg transition">
+                    <svg width="24" height="24" viewBox="0 0 16 16" fill="currentColor"><path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/></svg>
+                </button>
+                <div id="dropdownMenu" class="hidden absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border z-50 overflow-hidden text-gray-800">
+                    <button onclick="switchMajorMenu('sni')" class="w-full text-left px-4 py-4 text-sm font-bold hover:bg-blue-50 flex items-center gap-3 border-b">📂 PANTAU SNI</button>
+                    <button onclick="switchMajorMenu('lapangan')" class="w-full text-left px-4 py-4 text-sm font-bold hover:bg-blue-50 flex items-center gap-3">🏗️ PANTAU LAPANGAN</button>
+                </div>
             </div>
         </div>
     </nav>
 
     <main class="flex-grow max-w-7xl mx-auto p-6 w-full">
         
-        <div id="section-input" class="animate-fadeIn">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                
-                <div class="bg-white p-6 rounded-[2rem] border shadow-sm h-fit">
-                    <div class="flex items-center gap-2 mb-4 border-b pb-3">
-                        <h3 class="font-black text-blue-900 uppercase italic text-sm">📂 Database 10 SNI Utama</h3>
-                    </div>
-                    <div id="listSNI" class="space-y-3 max-h-[500px] overflow-y-auto pr-2">
-                        </div>
+        <div id="section-sni" class="animate-fadeIn">
+            <div class="flex space-x-6 border-b-2 mb-8 text-xs font-bold text-gray-400 overflow-x-auto whitespace-nowrap uppercase">
+                <button onclick="switchSubTab('gudang')" id="tab-gudang" class="pb-3 tab-active">📂 Gudang SNI</button>
+                <button onclick="switchSubTab('cek')" id="tab-cek" class="pb-3">🔍 Cek SNI</button>
+                <button onclick="switchSubTab('laporansni')" id="tab-laporansni" class="pb-3">📤 Laporan Final</button>
+            </div>
+
+            <div id="sub-gudang" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 </div>
 
-                <div class="lg:col-span-2 space-y-6">
-                    <div class="bg-white p-8 rounded-[2rem] border shadow-sm border-t-[10px] border-blue-900">
-                        <h3 class="font-black text-blue-900 mb-6 uppercase italic">📤 Arsip Dokumen Proyek</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <input type="text" id="namaArsip" placeholder="Nama Proyek Gedung" class="w-full p-4 bg-gray-50 border rounded-2xl outline-none focus:ring-2 ring-blue-500 font-bold">
-                            <input type="file" id="fileArsip" class="w-full p-3 bg-gray-50 border rounded-2xl text-xs font-bold">
-                        </div>
-                        <button onclick="simpanData('SNI')" class="w-full mt-6 bg-blue-900 text-white font-black py-4 rounded-2xl hover:bg-blue-800 uppercase tracking-widest shadow-lg">Simpan Ke Database</button>
+            <div id="sub-cek" class="hidden">
+                <div class="max-w-xl mx-auto bg-white p-10 rounded-[2.5rem] border shadow-sm text-center">
+                    <h2 class="text-xl font-black uppercase italic mb-6">Validasi Standar SNI</h2>
+                    <div class="border-4 border-dashed border-gray-100 p-8 rounded-3xl mb-6">
+                        <input type="file" id="excelInput" class="hidden" accept=".xlsx, .xls">
+                        <label for="excelInput" class="cursor-pointer inline-block bg-blue-900 text-white px-10 py-4 rounded-2xl font-black shadow-lg hover:bg-blue-800 transition uppercase text-sm">Upload Excel Data</label>
+                        <p id="excelStatus" class="mt-4 text-sm font-bold text-gray-400 italic">Menunggu file laporan...</p>
                     </div>
+                </div>
+            </div>
 
-                    <div class="bg-white p-8 rounded-[2rem] border shadow-sm border-t-[10px] border-green-600">
-                        <h3 class="font-black text-green-700 mb-6 uppercase italic">🏗️ Progres Lapangan</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <input type="text" id="namaPaket" placeholder="Nama Paket Pekerjaan" class="w-full p-4 bg-gray-50 border rounded-2xl outline-none focus:ring-2 ring-green-500 font-bold">
-                            <input type="number" id="persenFisik" placeholder="Progres (%)" class="w-full p-4 bg-gray-50 border rounded-2xl outline-none focus:ring-2 ring-green-500 font-bold">
-                        </div>
-                        <button onclick="simpanData('LAP')" class="w-full mt-6 bg-green-700 text-white font-black py-4 rounded-2xl hover:bg-green-600 uppercase tracking-widest shadow-lg">Update Monitoring</button>
+            <div id="sub-laporansni" class="hidden">
+                <div class="max-w-xl mx-auto bg-white p-8 rounded-[2.5rem] border shadow-sm border-t-[10px] border-blue-900">
+                    <h2 class="text-xl font-black uppercase italic mb-6 text-blue-900 text-center">Arsip Laporan SNI</h2>
+                    <div class="space-y-4">
+                        <input type="text" id="idProyekSNI" placeholder="Nama Bangunan / Gedung" class="w-full p-4 bg-gray-50 border rounded-2xl outline-none focus:ring-2 ring-blue-500 font-bold">
+                        <input type="file" id="fileSNI" class="w-full p-3 bg-gray-50 border rounded-2xl text-xs font-bold">
+                        <button onclick="simpanData('SNI')" class="w-full bg-blue-900 text-white font-black py-4 rounded-2xl shadow-lg hover:bg-blue-800 transition uppercase tracking-widest">Kirim ke Database</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div id="section-monitor" class="hidden animate-fadeIn">
-            <div class="flex justify-between items-center mb-8">
-                <h2 class="text-3xl font-black text-blue-900 uppercase italic">Dashboard Realtime</h2>
-                <button onclick="resetData()" class="bg-red-50 text-red-600 text-[10px] font-black px-6 py-3 rounded-full border border-red-100 hover:bg-red-600 hover:text-white uppercase transition-all">Reset Data</button>
+        <div id="section-lapangan" class="hidden animate-fadeIn">
+            <div class="flex space-x-6 border-b-2 mb-8 text-xs font-bold text-gray-400 uppercase">
+                <button onclick="switchSubTab('lapMingguan')" id="tab-lapMingguan" class="pb-3 tab-active">📝 Input Progres</button>
+                <button onclick="switchSubTab('presentase')" id="tab-presentase" class="pb-3">📊 Dashboard Monitoring</button>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="bg-white rounded-[2.5rem] shadow-xl border overflow-hidden">
-                    <div class="bg-blue-900 p-5 text-white font-black text-xs uppercase italic">Arsip Terverifikasi</div>
-                    <div id="displayArsip" class="p-6 space-y-4 min-h-[400px]"></div>
+            <div id="sub-lapMingguan" class="max-w-xl mx-auto">
+                <div class="bg-white p-8 rounded-[2.5rem] border shadow-sm border-t-[10px] border-green-700">
+                    <h2 class="text-xl font-black uppercase italic mb-6 text-green-700 text-center">Update Progres Lapangan</h2>
+                    <div class="space-y-4">
+                        <input type="text" id="idProyekLap" placeholder="Nama Proyek / Lokasi" class="w-full p-4 bg-gray-50 border rounded-2xl outline-none focus:ring-2 ring-green-500 font-bold">
+                        <input type="number" id="persenFisik" placeholder="Progres Fisik (%)" class="w-full p-4 bg-gray-50 border rounded-2xl font-bold">
+                        <button onclick="simpanData('LAP')" class="w-full bg-green-700 text-white font-black py-4 rounded-2xl shadow-lg hover:bg-green-600 transition uppercase tracking-widest">Update Data Lapangan</button>
+                    </div>
                 </div>
+            </div>
 
-                <div class="bg-white rounded-[2.5rem] shadow-xl border overflow-hidden">
-                    <div class="bg-green-700 p-5 text-white font-black text-xs uppercase italic">Capaian Lapangan</div>
-                    <div id="displayProgres" class="p-6 space-y-4 min-h-[400px]"></div>
+            <div id="sub-presentase" class="hidden space-y-6">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-2xl font-black text-blue-900 uppercase italic">Monitoring Proyek</h2>
+                    <button onclick="resetData()" class="text-[10px] font-black text-red-500 uppercase border border-red-200 px-4 py-2 rounded-full hover:bg-red-50">Reset Semua Data</button>
                 </div>
+                <div id="displayContainer" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    </div>
             </div>
         </div>
     </main>
 
     <script>
-        // Masukkan link file GitHub Anda di sini
+        // DATABASE 10 SNI UTAMA (Tambahkan link GitHub Anda di sini)
         const databaseSNI = [
-            { no: "2847:2019", judul: "Beton Struktural", url: "MASUKKAN_LINK_GITHUB_DI_SINI" },
-            { no: "1726:2019", judul: "Ketahanan Gempa", url: "#" },
-            { no: "1727:2020", judul: "Beban Desain", url: "#" },
-            { no: "1729:2020", judul: "Bangunan Baja", url: "#" },
-            { no: "8460:2017", judul: "Geoteknik", url: "#" },
-            { no: "2052:2017", judul: "Baja Tulangan", url: "#" },
-            { no: "1734:2015", judul: "Beton Bertulang", url: "#" },
-            { no: "7971:2013", judul: "Struktur Kayu", url: "#" },
-            { no: "8151:2015", judul: "Panel Beton", url: "#" },
-            { no: "1735:2015", judul: "Proteksi Api", url: "#" }
+            { no: "2847:2019", judul: "Persyaratan Beton Struktural", url: "#" },
+            { no: "1726:2019", judul: "Tata Cara Perencanaan Ketahanan Gempa", url: "#" },
+            { no: "1727:2020", judul: "Beban Desain Minimum Bangunan", url: "#" },
+            { no: "1729:2020", judul: "Spesifikasi Bangunan Gedung Baja", url: "#" },
+            { no: "8460:2017", judul: "Persyaratan Teknis Geoteknik", url: "#" },
+            { no: "2052:2017", judul: "Baja Tulangan Beton", url: "#" },
+            { no: "1734:2015", judul: "Perancangan Beton Bertulang", url: "#" },
+            { no: "7971:2013", judul: "Struktur Kayu Konstruksi", url: "#" },
+            { no: "8151:2015", judul: "Sistem Panel Beton Precast", url: "#" },
+            { no: "1735:2015", judul: "Sistem Proteksi Kebakaran", url: "#" }
         ];
 
-        function renderSNI() {
-            const container = document.getElementById('listSNI');
+        function renderGudangSNI() {
+            const container = document.getElementById('sub-gudang');
             container.innerHTML = databaseSNI.map(item => `
-                <a href="${item.url}" target="_blank" class="block p-4 bg-gray-50 border rounded-2xl hover:bg-blue-900 hover:text-white transition-all group border-l-[6px] border-l-blue-900">
-                    <div class="text-[11px] font-black uppercase">SNI ${item.no}</div>
-                    <div class="text-[9px] font-bold opacity-60 uppercase mt-1">${item.judul}</div>
-                </a>
+                <div class="bg-white p-5 rounded-2xl border shadow-sm border-l-[6px] border-blue-900 hover:shadow-md transition group">
+                    <h4 class="font-black text-blue-900 text-sm">SNI ${item.no}</h4>
+                    <p class="text-[10px] text-gray-500 font-bold uppercase mt-1 leading-tight">${item.judul}</p>
+                    <a href="${item.url}" target="_blank" class="mt-4 inline-block text-[10px] font-black bg-blue-50 text-blue-900 px-4 py-2 rounded-lg group-hover:bg-blue-900 group-hover:text-white transition-colors">LIHAT DOKUMEN ↗</a>
+                </div>
             `).join('');
         }
 
+        // FUNGSI SIMPAN DATA (LOCALSTORAGE)
         function simpanData(tipe) {
-            let dataLama = JSON.parse(localStorage.getItem('db_sipantau_final')) || [];
+            let storageKey = 'sipantau_db_v2';
+            let dataLama = JSON.parse(localStorage.getItem(storageKey)) || [];
             let entry = { id: Date.now(), waktu: new Date().toLocaleString() };
 
             if(tipe === 'SNI') {
-                const nama = document.getElementById('namaArsip').value;
-                const file = document.getElementById('fileArsip').files[0];
-                if(!nama || !file) return alert("Isi data dengan lengkap!");
-                entry = { ...entry, tipe: 'SNI', nama: nama, info: file.name };
+                const nama = document.getElementById('idProyekSNI').value;
+                if(!nama) return alert("Nama Proyek Wajib Diisi!");
+                entry = { ...entry, tipe: 'SNI', nama: nama, info: 'Laporan SNI Terarsip' };
             } else {
-                const paket = document.getElementById('namaPaket').value;
+                const nama = document.getElementById('idProyekLap').value;
                 const persen = document.getElementById('persenFisik').value;
-                if(!paket || !persen) return alert("Isi progres lapangan!");
-                entry = { ...entry, tipe: 'LAP', nama: paket, info: persen + "%" };
+                if(!nama || !persen) return alert("Isi Proyek dan Persentase!");
+                entry = { ...entry, tipe: 'LAP', nama: nama, info: persen + '%' };
             }
 
             dataLama.unshift(entry);
-            localStorage.setItem('db_sipantau_final', JSON.stringify(dataLama));
-            alert("Data Berhasil Tersimpan Permanen!");
-            refreshUI();
-            switchMenu('monitor');
+            localStorage.setItem(storageKey, JSON.stringify(dataLama));
+            alert("Data Berhasil Disimpan!");
+            
+            // Auto switch ke dashboard
+            if(tipe === 'LAP') {
+                switchSubTab('presentase');
+            }
+            refreshDisplay();
         }
 
-        function refreshUI() {
-            const data = JSON.parse(localStorage.getItem('db_sipantau_final')) || [];
-            const containerA = document.getElementById('displayArsip');
-            const containerP = document.getElementById('displayProgres');
-            containerA.innerHTML = ''; containerP.innerHTML = '';
-
-            data.forEach(item => {
-                const card = `
-                    <div class="p-5 bg-gray-50 border rounded-3xl flex justify-between items-center shadow-sm border-l-[6px] ${item.tipe === 'SNI' ? 'border-l-blue-900' : 'border-l-green-600'}">
-                        <div>
-                            <p class="font-black text-blue-900 text-sm uppercase">${item.nama}</p>
-                            <p class="text-[10px] text-gray-400 font-bold mt-1">${item.waktu}</p>
-                        </div>
-                        <div class="font-black ${item.tipe === 'SNI' ? 'text-blue-700' : 'text-green-700'} text-xs">${item.info}</div>
+        function refreshDisplay() {
+            const data = JSON.parse(localStorage.getItem('sipantau_db_v2')) || [];
+            const container = document.getElementById('displayContainer');
+            container.innerHTML = data.map(item => `
+                <div class="bg-white p-6 rounded-[2rem] border shadow-sm flex justify-between items-center border-l-[8px] ${item.tipe === 'SNI' ? 'border-blue-900' : 'border-green-600'}">
+                    <div>
+                        <p class="text-[10px] font-black text-gray-400 uppercase">${item.tipe === 'SNI' ? '📂 ARSIP SNI' : '🏗️ PROGRES LAPANGAN'}</p>
+                        <h3 class="font-black text-gray-800 uppercase mt-1">${item.nama}</h3>
+                        <p class="text-[9px] text-gray-400 font-bold italic">${item.waktu}</p>
                     </div>
-                `;
-                if(item.tipe === 'SNI') containerA.innerHTML += card;
-                else containerP.innerHTML += card;
-            });
+                    <div class="text-right">
+                        <span class="text-xl font-black ${item.tipe === 'SNI' ? 'text-blue-900' : 'text-green-700'}">${item.info}</span>
+                    </div>
+                </div>
+            `).join('');
         }
 
-        function switchMenu(m) {
-            document.getElementById('section-input').classList.toggle('hidden', m !== 'input');
-            document.getElementById('section-monitor').classList.toggle('hidden', m !== 'monitor');
+        // NAVIGATION LOGIC
+        function switchMajorMenu(menu) {
+            document.getElementById('section-sni').classList.toggle('hidden', menu !== 'sni');
+            document.getElementById('section-lapangan').classList.toggle('hidden', menu !== 'lapangan');
+            document.getElementById('dropdownMenu').classList.add('hidden');
+            if(menu === 'sni') switchSubTab('gudang');
+            if(menu === 'lapangan') switchSubTab('lapMingguan');
+        }
+
+        function switchSubTab(sub) {
+            const tabs = ['gudang', 'cek', 'laporansni', 'lapMingguan', 'presentase'];
+            tabs.forEach(t => {
+                const el = document.getElementById('sub-' + t);
+                const btn = document.getElementById('tab-' + t);
+                if(el) el.classList.add('hidden');
+                if(btn) btn.classList.remove('tab-active');
+            });
+            document.getElementById('sub-' + sub).classList.remove('hidden');
+            document.getElementById('tab-' + sub).classList.add('tab-active');
         }
 
         function resetData() {
-            if(confirm("Hapus semua riwayat?")) {
-                localStorage.removeItem('db_sipantau_final');
-                refreshUI();
+            if(confirm("Hapus semua riwayat monitoring?")) {
+                localStorage.removeItem('sipantau_db_v2');
+                refreshDisplay();
             }
         }
 
-        window.onload = () => { renderSNI(); refreshUI(); };
+        // Init
+        const menuBtn = document.getElementById('menuBtn');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        menuBtn.onclick = (e) => { e.stopPropagation(); dropdownMenu.classList.toggle('hidden'); };
+        window.onclick = () => dropdownMenu.classList.add('hidden');
+
+        window.onload = () => {
+            renderGudangSNI();
+            refreshDisplay();
+        };
     </script>
 </body>
 </html>
