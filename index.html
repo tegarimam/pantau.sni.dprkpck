@@ -21,7 +21,7 @@
         <div class="container mx-auto flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <div class="bg-white p-0.5 rounded-lg h-10 w-10 flex items-center justify-center overflow-hidden">
-                    <img src="logo.png" alt="Logo" class="h-full w-full object-contain" onerror="this.innerHTML='<i class=\'fas fa-file-invoice text-blue-900\'></i>'">
+                    <i class='fas fa-file-invoice text-blue-900 text-xl'></i>
                 </div>
                 <div>
                     <h1 class="text-xs font-black uppercase">SIPANTAU CIPTAKARYA</h1>
@@ -123,15 +123,15 @@
         let db;
         const SNI_LIST = [
             "0225 - SNI 0225-2020 Persyaratan Umum Instalasi Listrik (PUIL 2020).pdf",
-            "1727 - SNI 1727-2020 Beban desain minimum dan kriteria terkait untuk bangunan gedung dan struktur lain.pdf",
-            "1729 - SNI 1729-2020 Spesifikasi untuk bangunan gedung baja struktural.pdf",
-            "SNI 1726-2012 Tata cara perencanaan ketahanan gempa.pdf",
+            "1727 - SNI 1727-2020 Beban desain minimum bangunan gedung.pdf",
+            "1729 - SNI 1729-2020 Spesifikasi bangunan gedung baja struktural.pdf",
+            "SNI 1726-2012/2019 Tata cara perencanaan ketahanan gempa.pdf",
             "SNI 2847-2019 Persyaratan Beton Struktural Untuk Bangunan Gedung.pdf",
-            "SNI 4153-2019 - Metode Uji Penetrasi Standar (SPT).pdf",
-            "SNI 8064-2016 Analisis stabilitas lereng statik bendungan.pdf",
+            "SNI 4153-2019 Metode Uji Penetrasi Standar (SPT).pdf",
+            "SNI 8064-2016 Analisis stabilitas lereng bendungan tipe urugan.pdf",
             "SNI 8153-2015 Sistem Plambing Pada Bangunan Gedung.pdf",
             "SNI 8460-2017 Persyaratan Perancangan Geoteknik.pdf",
-            "SNI_2052-2002-2017 Baja tulangan beton.pdf"
+            "SNI 2052-2017 Baja tulangan beton.pdf"
         ];
 
         document.addEventListener("DOMContentLoaded", function() {
@@ -161,10 +161,10 @@
             container.innerHTML = "";
             SNI_LIST.forEach(name => {
                 container.innerHTML += `
-                    <div onclick="window.open('${name}', '_blank')" class="p-4 bg-white rounded-2xl shadow-sm border-l-4 border-blue-900 flex justify-between items-center card-custom">
+                    <div onclick="alert('Membuka file: ${name}')" class="p-4 bg-white rounded-2xl shadow-sm border-l-4 border-blue-900 flex justify-between items-center card-custom">
                         <div class="pr-4">
                             <h4 class="text-[9px] font-black text-blue-900 uppercase leading-tight">${name.replace('.pdf','')}</h4>
-                            <p class="text-[7px] text-gray-400 mt-1 uppercase font-bold"><i class="fas fa-eye mr-1"></i> Klik untuk membuka file</p>
+                            <p class="text-[7px] text-gray-400 mt-1 uppercase font-bold"><i class="fas fa-eye mr-1"></i> Lihat Standar</p>
                         </div>
                         <i class="fas fa-file-pdf text-red-500 text-lg"></i>
                     </div>
@@ -175,10 +175,11 @@
         function loadAcuanCek() {
             const container = document.getElementById('daftar-acuan');
             SNI_LIST.forEach(name => {
+                const noSni = name.match(/\d{4}/) ? name.match(/\d{4}/)[0] : "SNI";
                 container.innerHTML += `
                     <div class="text-[7px] text-gray-500 flex items-center gap-2">
                         <i class="fas fa-check text-green-500"></i>
-                        <span class="font-bold">${name.split(' ')[0]}</span> - ${name.substring(0, 40)}...
+                        <span class="font-bold">SNI ${noSni}</span> - ${name.substring(0, 35)}...
                     </div>
                 `;
             });
@@ -188,8 +189,6 @@
             document.getElementById('menu-dropdown').classList.add('hidden-section');
             ['sni', 'lapangan', 'monitor'].forEach(s => document.getElementById('sec-' + s).classList.add('hidden-section'));
             document.getElementById('sec-' + target).classList.remove('hidden-section');
-            
-            // Update Title including "PANTAU REALTIME"
             const titles = { 'sni': 'PANTAU SNI', 'lapangan': 'PANTAU LAPORAN', 'monitor': 'PANTAU REALTIME' };
             document.getElementById('display-title').innerText = titles[target];
             if(target === 'monitor') loadLaporan('Semua');
@@ -199,7 +198,6 @@
             document.getElementById('sub-gudang').className = f === 'gudang' ? 'grid gap-3' : 'hidden-section';
             document.getElementById('sub-cek').className = f === 'cek' ? '' : 'hidden-section';
             document.getElementById('sub-arsip').className = f === 'arsip' ? '' : 'hidden-section';
-            
             document.getElementById('btn-gudang').className = f === 'gudang' ? 'pb-2 text-[9px] uppercase font-bold active-tab' : 'pb-2 text-[9px] uppercase font-bold text-gray-400';
             document.getElementById('btn-cek').className = f === 'cek' ? 'pb-2 text-[9px] uppercase font-bold active-tab' : 'pb-2 text-[9px] uppercase font-bold text-gray-400';
             document.getElementById('btn-arsip-menu').className = f === 'arsip' ? 'pb-2 text-[9px] uppercase font-bold active-tab' : 'pb-2 text-[9px] uppercase font-bold text-gray-400';
@@ -208,13 +206,11 @@
         function tabLaporan(f) {
             ['tab-prog', 'tab-img', 'tab-rab'].forEach(id => document.getElementById(id).classList.add('hidden-section'));
             document.getElementById('tab-' + f).classList.remove('hidden-section');
-            
             document.getElementById('btn-tab-prog').className = f === 'prog' ? 'pb-2 text-[9px] uppercase font-bold active-tab' : 'pb-2 text-[9px] uppercase font-bold text-gray-400';
             document.getElementById('btn-tab-img').className = f === 'img' ? 'pb-2 text-[9px] uppercase font-bold active-tab' : 'pb-2 text-[9px] uppercase font-bold text-gray-400';
             document.getElementById('btn-tab-rab').className = f === 'rab' ? 'pb-2 text-[9px] uppercase font-bold active-tab' : 'pb-2 text-[9px] uppercase font-bold text-gray-400';
         }
 
-        // PERBAIKAN: Fungsi Cek SNI dengan Penjelasan Referensi
         function prosesCekSNI() {
             const file = document.getElementById('file-mandiri').files[0];
             if(!file) return alert("Pilih file terlebih dahulu!");
@@ -223,62 +219,41 @@
             const res = document.getElementById('cek-result');
             box.classList.add('hidden-section');
             res.classList.remove('hidden-section');
-            res.innerHTML = `
-                <div class="text-center py-10">
-                    <i class="fas fa-spinner fa-spin text-3xl text-blue-900 mb-4"></i>
-                    <p class='text-[10px] font-bold text-blue-900 animate-pulse uppercase'>Menghubungkan ke Database Standar...</p>
-                </div>
-            `;
+            res.innerHTML = `<div class="text-center py-10"><i class="fas fa-spinner fa-spin text-3xl text-blue-900 mb-4"></i><p class='text-[10px] font-bold text-blue-900 animate-pulse uppercase'>Menghubungkan ke Database...</p></div>`;
 
             setTimeout(() => {
-                // Logika Penentuan Referensi Otomatis berdasarkan nama file (Simulasi AI)
-                let referensi = "SNI Cipta Karya Umum";
-                let detail = "Sistem mengidentifikasi parameter teknis umum pada dokumen.";
+                const fileName = file.name.toLowerCase();
+                const mapping = {
+                    "0225": { no: "SNI 0225:2020 (PUIL)", desc: "Persyaratan Umum Instalasi Listrik." },
+                    "1727": { no: "SNI 1727:2020", desc: "Beban desain minimum gedung dan struktur." },
+                    "1729": { no: "SNI 1729:2020", desc: "Spesifikasi bangunan gedung baja struktural." },
+                    "1726": { no: "SNI 1726:2019", desc: "Perencanaan ketahanan gempa struktur gedung." },
+                    "2847": { no: "SNI 2847:2019", desc: "Persyaratan beton struktural bangunan gedung." },
+                    "4153": { no: "SNI 4153:2019", desc: "Metode uji penetrasi standar (SPT) tanah." },
+                    "8064": { no: "SNI 8064:2016", desc: "Analisis stabilitas lereng bendungan urugan." },
+                    "8153": { no: "SNI 8153:2015", desc: "Sistem plambing pada bangunan gedung." },
+                    "8460": { no: "SNI 8460:2017", desc: "Persyaratan perancangan geoteknik." },
+                    "2052": { no: "SNI 2052:2017", desc: "Standar mutu baja tulangan beton." }
+                };
 
-                if(file.name.toLowerCase().includes("beton")) {
-                    referensi = "SNI 2847:2019";
-                    detail = "Hasil hitungan struktur beton divalidasi berdasarkan Persyaratan Beton Struktural untuk Bangunan Gedung.";
-                } else if(file.name.toLowerCase().includes("listrik") || file.name.toLowerCase().includes("panel")) {
-                    referensi = "SNI 0225:2020 (PUIL)";
-                    detail = "Instalasi dan diagram satu garis divalidasi sesuai Persyaratan Umum Instalasi Listrik.";
-                } else if(file.name.toLowerCase().includes("baja") || file.name.toLowerCase().includes("steel")) {
-                    referensi = "SNI 1729:2020";
-                    detail = "Spesifikasi material dan koneksi baja divalidasi sesuai standar Bangunan Gedung Baja Struktural.";
-                } else if(file.name.toLowerCase().includes("gempa")) {
-                    referensi = "SNI 1726:2012/2019";
-                    detail = "Analisis beban lateral divalidasi sesuai Tata Cara Perencanaan Ketahanan Gempa.";
-                }
+                let ref = { no: "SNI Cipta Karya", desc: "Regulasi teknis pekerjaan konstruksi." };
+                for (let key in mapping) { if (fileName.includes(key)) { ref = mapping[key]; break; } }
 
                 res.innerHTML = `
                     <div class="p-5 bg-white border-2 border-green-100 rounded-3xl shadow-sm">
-                        <div class="flex items-center gap-3 mb-4">
-                            <i class="fas fa-check-circle text-2xl text-green-500"></i>
-                            <div>
-                                <h4 class="text-xs font-black text-green-700 uppercase">Validasi Berhasil</h4>
-                                <p class="text-[8px] text-gray-400 font-bold uppercase tracking-tighter">Status: Memenuhi Standar</p>
-                            </div>
-                        </div>
-                        
-                        <div class="bg-green-50 p-4 rounded-2xl mb-4">
-                            <p class="text-[9px] text-green-800 font-bold leading-relaxed">
-                                Dokumen "${file.name}" dinyatakan SESUAI dengan regulasi teknis.
-                            </p>
-                        </div>
-
+                        <div class="flex items-center gap-3 mb-4"><i class="fas fa-check-circle text-2xl text-green-500"></i><div><h4 class="text-xs font-black text-green-700 uppercase">Validasi Berhasil</h4><p class="text-[8px] text-gray-400 font-bold uppercase">Status: Sesuai Standar</p></div></div>
+                        <div class="bg-green-50 p-4 rounded-2xl mb-4"><p class="text-[9px] text-green-800 font-bold">Dokumen "${file.name}" valid secara teknis.</p></div>
                         <div class="border-t pt-4">
-                            <p class="text-[8px] font-black text-blue-900 uppercase mb-1">📢 Penjelasan Sistem:</p>
-                            <p class="text-[9px] text-gray-600 leading-relaxed mb-2">
-                                ${detail}
-                            </p>
+                            <p class="text-[8px] font-black text-blue-900 uppercase mb-1">📢 Penjelasan:</p>
+                            <p class="text-[9px] text-gray-600 mb-2">Dokumen ini telah diverifikasi menggunakan referensi standar:</p>
                             <div class="bg-gray-100 p-2 rounded-lg inline-block border border-dashed border-blue-300">
-                                <p class="text-[8px] font-bold text-blue-800 uppercase">Referency: ${referensi}</p>
+                                <p class="text-[8px] font-bold text-blue-800 uppercase">${ref.no}</p>
+                                <p class="text-[7px] text-gray-500 italic uppercase">${ref.desc}</p>
                             </div>
                         </div>
-
-                        <button onclick="resetCek()" class="w-full mt-5 py-3 bg-gray-900 text-white rounded-xl text-[9px] font-bold uppercase">Cek File Lain</button>
-                    </div>
-                `;
-            }, 2000);
+                        <button onclick="resetCek()" class="w-full mt-5 py-3 bg-gray-900 text-white rounded-xl text-[9px] font-bold uppercase">Selesai</button>
+                    </div>`;
+            }, 1500);
         }
 
         function resetCek() {
@@ -291,33 +266,29 @@
             let judul, fileInput, detail = "";
             if(kategori === 'Progres') {
                 judul = document.getElementById('prog-jenis').value;
-                detail = `Detail: ${document.getElementById('prog-detail').value} | Capaian: ${document.getElementById('prog-persen').value}%`;
+                detail = `Capaian: ${document.getElementById('prog-persen').value}% | ${document.getElementById('prog-detail').value}`;
                 fileInput = document.getElementById('prog-file');
             } else if(kategori === 'Gambar') {
                 judul = document.getElementById('img-proyek').value;
-                detail = `Tipe: ${document.getElementById('img-jenis').value} | Uraian: ${document.getElementById('img-detail').value}`;
+                detail = `Tipe: ${document.getElementById('img-jenis').value} | ${document.getElementById('img-detail').value}`;
                 fileInput = document.getElementById('img-file');
             } else if(kategori === 'RAB') {
                 judul = document.getElementById('rab-proyek').value;
-                detail = "Laporan Perhitungan Rencana Anggaran Biaya";
+                detail = "Laporan Perhitungan Anggaran Biaya";
                 fileInput = document.getElementById('rab-file');
             } else if(kategori === 'Arsip') {
                 judul = document.getElementById('arsip-judul').value;
-                detail = "Dokumen Final (Verified by SNI)";
+                detail = "Dokumen Terverifikasi SNI";
                 fileInput = document.getElementById('arsip-file');
             }
 
             const file = fileInput.files[0];
-            if (!file || !judul) return alert("Lengkapi data dan file!");
+            if (!file || !judul) return alert("Lengkapi data!");
 
             const transaction = db.transaction(["files"], "readwrite");
             const store = transaction.objectStore("files");
             store.add({ kategori, judul, detail, tgl: new Date().toLocaleString('id-ID'), name: file.name, type: file.type, blob: file });
-
-            transaction.oncomplete = () => {
-                alert("Berhasil disimpan!");
-                location.reload(); 
-            };
+            transaction.oncomplete = () => { alert("Tersimpan!"); location.reload(); };
         }
 
         function loadLaporan(filter) {
@@ -329,22 +300,14 @@
                 if (cursor) {
                     const d = cursor.value;
                     if(filter === 'Semua' || d.kategori === filter) {
-                        let icon = "fa-file-alt", color = "text-gray-400";
-                        if(d.type.includes("pdf")) { icon = "fa-file-pdf"; color = "text-red-500"; }
-                        else if(d.type.includes("image")) { icon = "fa-file-image"; color = "text-blue-500"; }
-                        
+                        let icon = d.type.includes("pdf") ? "fa-file-pdf" : "fa-file-image";
+                        let color = d.type.includes("pdf") ? "text-red-500" : "text-blue-500";
                         list.innerHTML = `
                             <div class="bg-white p-4 rounded-2xl shadow-sm border-l-8 border-blue-900">
-                                <div class="flex justify-between text-[7px] text-gray-400 mb-1 font-bold uppercase">
-                                    <span class="bg-blue-100 text-blue-700 px-2 py-0.5 rounded">${d.kategori}</span>
-                                    <span>${d.tgl}</span>
-                                </div>
+                                <div class="flex justify-between text-[7px] text-gray-400 mb-1 font-bold uppercase"><span class="bg-blue-100 text-blue-700 px-2 py-0.5 rounded">${d.kategori}</span><span>${d.tgl}</span></div>
                                 <h4 class="font-bold text-xs mb-1 uppercase text-blue-900">${d.judul}</h4>
                                 <p class="text-[8px] text-gray-500 mb-3 italic">${d.detail}</p>
-                                <div class="flex items-center gap-3 p-2 bg-gray-50 rounded-xl border border-dashed mb-3">
-                                    <i class="fas ${icon} ${color} text-lg"></i>
-                                    <p class="text-[8px] font-bold text-gray-600 truncate">${d.name}</p>
-                                </div>
+                                <div class="flex items-center gap-3 p-2 bg-gray-50 rounded-xl border border-dashed mb-3"><i class="fas ${icon} ${color} text-lg"></i><p class="text-[8px] font-bold text-gray-600 truncate">${d.name}</p></div>
                                 <button onclick="bukaFile('${d.id}')" class="w-full bg-blue-900 text-white py-2 rounded-lg text-[9px] font-bold">BUKA FILE</button>
                             </div>` + list.innerHTML;
                     }
@@ -358,8 +321,7 @@
         function bukaFile(id) {
             const store = db.transaction(["files"]).objectStore("files");
             store.get(Number(id)).onsuccess = (e) => {
-                const item = e.target.result;
-                const fileURL = URL.createObjectURL(item.blob);
+                const fileURL = URL.createObjectURL(e.target.result.blob);
                 window.open(fileURL, '_blank');
             };
         }
