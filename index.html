@@ -146,19 +146,43 @@
         });
 
         function initDB() {
-            const request = indexedDB.open("SipantauCiptaDB", 4);
-            request.onupgradeneeded = (e) => {
-                db = e.target.result;
-                if (!db.objectStoreNames.contains("files")) {
-                    db.createObjectStore("files", { keyPath: "id", autoIncrement: true });
-                }
-                if (!db.objectStoreNames.contains("history")) {
-                    db.createObjectStore("history", { keyPath: "id", autoIncrement: true });
-                }
-            };
-            request.onsuccess = (e) => { db = e.target.result; };
+
+    if (!localStorage.getItem("sipantau_reset_v1")) {
+
+        indexedDB.deleteDatabase("SipantauCiptaDB");
+
+        localStorage.setItem("sipantau_reset_v1", "done");
+
+        location.reload();
+
+        return;
+    }
+
+    const request = indexedDB.open("SipantauCiptaDB", 5);
+
+    request.onupgradeneeded = (e) => {
+
+        db = e.target.result;
+
+        if (!db.objectStoreNames.contains("files")) {
+            db.createObjectStore("files", {
+                keyPath: "id",
+                autoIncrement: true
+            });
         }
 
+        if (!db.objectStoreNames.contains("history")) {
+            db.createObjectStore("history", {
+                keyPath: "id",
+                autoIncrement: true
+            });
+        }
+    };
+
+    request.onsuccess = (e) => {
+        db = e.target.result;
+    };
+}
         function loadGudang() {
             const container = document.getElementById('sub-gudang');
             container.innerHTML = "";
